@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+import Picture from './Picture.astro';
+import { township } from '../data/projects';
+---
+<section class="section township" aria-labelledby="township-title">
+  <div class="wrap">
+    <div class="township-grid">
+      <div data-reveal>
+        <p class="eyebrow">Life Republic by {township.developer}</p>
+        <h2 id="township-title">One Address. A Whole Way of Life.</h2>
+        <p class="lead">All four projects sit within Life Republic, a ~400 acre integrated township near the Hinjawadi IT hub — with schools, healthcare, shopping, parks and IT parks close by, and a thriving community of 30,000+ residents.</p>
+        <div class="township-stats">
+          {township.stats.map((s) => <div><strong>{s.value}</strong><span>{s.label}</span></div>)}
+        </div>
+        <div class="township-links">
+          <a class="btn btn-navy btn-sm" href={township.masterLayout.href} download><Icon name="download" size={15} />Master Layout · PDF {township.masterLayout.size}</a>
+          <button class="link-arrow" type="button" data-lightbox-open="location-map" style="background:none;border:0;cursor:pointer"><Icon name="pin" size={16} />View Location Map</button>
+        </div>
+      </div>
+      <div class="mosaic" data-reveal="scale">
+        <div class="media zoom"><Picture name="township-aerial" sizes="(max-width: 900px) 55vw, 30vw" /></div>
+        <div class="media zoom"><Picture name="township-tulips" sizes="(max-width: 900px) 40vw, 22vw" /></div>
+        <div class="media zoom"><Picture name="township-roundabout" sizes="(max-width: 900px) 40vw, 22vw" /></div>
+      </div>
+    </div>
+    <div class="nearby">
+      {township.nearby.map((group, i) => (
+        <div class="nearby-card" data-reveal style={`--delay:${i * 70}ms`}>
+          <h3><Icon name={group.icon} size={22} />{group.title}</h3>
+          <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+    <div class="landmarks" data-reveal>
+      <p>Drive times</p>
+      <ul>{township.landmarks.map(([place, time]) => <li>{place}<strong>{time}</strong></li>)}</ul>
+    </div>
+  </div>
+  <dialog class="lightbox-modal" data-single-lightbox="location-map" aria-label="Life Republic location map">
+    <button class="modal-close" type="button" data-lightbox-close aria-label="Close map"><Icon name="close" size={20} /></button>
+    <figure><img src="/images/projects/location-map.webp" alt="Life Republic location map showing road connectivity to Hinjawadi, Wakad and the Mumbai–Pune highway" width="1600" height="1452" loading="lazy" /><figcaption><span>Life Republic location map</span><span>Source: Life Republic by Kolte Patil</span></figcaption></figure>
+  </dialog>
+</section>

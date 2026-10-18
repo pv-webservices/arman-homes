@@ -1,0 +1,24 @@
+---
+import { benefits } from '../data/site';
+import Icon from './Icon.astro';
+import Picture from './Picture.astro';
+---
+<section class="why section on-dark" aria-labelledby="why-title">
+  <Picture name="skyline" class="why-bg" decorative sizes="100vw" />
+  <div class="wrap">
+    <div class="section-head center" data-reveal>
+      <p class="eyebrow">Why Choose Arman Homes</p>
+      <h2 id="why-title">Your Trusted Real Estate Partner</h2>
+      <p class="lead">A considered approach to making your property journey simple, transparent and rewarding.</p>
+    </div>
+    <div class="why-grid">
+      {benefits.map((b, i) => (
+        <article class="why-card" data-reveal style={`--delay:${i * 80}ms`}>
+          <span class="ring"><Icon name={b.icon} size={26} /></span>
+          <h3>{b.title}</h3>
+          <p>{b.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

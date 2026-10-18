@@ -1,0 +1,59 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import '@fontsource/cormorant-garamond/latin-500-italic.css';
+import '@fontsource/cormorant-garamond/latin-600.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '../styles/base.css';
+import '../styles/chrome.css';
+import '../styles/sections.css';
+import '../styles/forms.css';
+import '../styles/projects.css';
+import { business } from '../data/site';
+interface Props { title: string; description: string; noindex?: boolean; ogImage?: string; solidHeader?: boolean }
+const { title, description, noindex = false, ogImage = '/images/hero.webp', solidHeader = false } = Astro.props;
+const origin = import.meta.env.PUBLIC_SITE_URL;
+const indexable = !!origin && import.meta.env.PUBLIC_INDEXABLE === 'true' && !noindex;
+const canonical = origin ? new URL(Astro.url.pathname, origin).href : undefined;
+const schema = { '@context': 'https://schema.org', '@type': 'RealEstateAgent', name: business.name, telephone: business.tel, email: business.email, address: { '@type': 'PostalAddress', addressLocality: 'Hinjewadi Marunji, Pune', addressRegion: 'Maharashtra', addressCountry: 'IN' }, ...(origin ? { url: origin } : {}) };
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#071827" />
+    <title>{title} | Arman Homes</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexable ? 'index,follow' : 'noindex,nofollow'} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={`${title} | Arman Homes`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {origin && <meta property="og:image" content={new URL(ogImage, origin).href} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        if (!sessionStorage.getItem('ah-visited') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('loading');
+          sessionStorage.setItem('ah-visited', '1');
+        }
+      } catch (e) { /* storage unavailable: skip the loader */ }
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+  </head>
+  <body data-header={solidHeader ? 'solid' : undefined}>
+    <div class="loader" aria-hidden="true"><img src="/images/logo-mark.webp" width="200" height="132" alt="" /><span></span></div>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>import '../scripts/site';</script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+---
+import Picture from './Picture.astro';
+interface Props { title: string; eyebrow?: string; description: string; image?: string; crumbs?: [string, string][] }
+const { title, eyebrow = 'Arman Homes · Pune', description, image, crumbs = [] } = Astro.props;
+---
+<section class:list={['page-hero', 'on-dark', { 'no-media': !image }]}>
+  {image && <div class="page-hero-bg"><Picture name={image} priority decorative sizes="100vw" /></div>}
+  <div class="wrap">
+    <div class="page-hero-copy">
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <a href="/">Home</a>
+        {crumbs.map(([href, label]) => <><span aria-hidden="true">/</span><a href={href}>{label}</a></>)}
+        <span aria-hidden="true">/</span><span aria-current="page">{title}</span>
+      </nav>
+      <p class="eyebrow hero-in">{eyebrow}</p>
+      <h1 class="hero-in" style="--delay:80ms">{title}</h1>
+      <p class="lead hero-in" style="--delay:160ms">{description}</p>
+      {Astro.slots.has('default') && <div class="actions hero-in" style="--delay:240ms"><slot /></div>}
+    </div>
+  </div>
+</section>

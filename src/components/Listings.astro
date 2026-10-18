@@ -1,0 +1,33 @@
+---
+import { properties, filterProperties } from '../data/properties.mjs';
+import { business } from '../data/site';
+import PropertyCard from './PropertyCard.astro';
+import Icon from './Icon.astro';
+interface Props { filters?: Record<string, string>; featured?: boolean }
+const { filters = {}, featured = false } = Astro.props;
+const records = filterProperties(properties, filters);
+const shortcuts: [string, string][] = [['apartment', 'Apartments'], ['villa', 'Villas'], ['house', 'Independent Houses'], ['office', 'Office Spaces'], ['shop', 'Shops'], ['plot', 'Plots']];
+---
+<div class="listing-area" data-listings>
+  {!featured && <p class="result-count" aria-live="polite"><span data-result-count>{records.length}</span> properties listed</p>}
+  {records.length > 0 && <div class="property-rail"><div class="property-grid">{(featured ? records.slice(0, 4) : records).map((p) => <PropertyCard property={p} />)}</div></div>}
+  {records.length > 0 && <p class="listing-note">Prices and availability are confirmed on enquiry. Photography is illustrative.</p>}
+  <div class="availability" data-empty hidden={records.length > 0} data-reveal>
+    <div class="availability-copy">
+      <span class="availability-icon"><Icon name="home" size={30} /></span>
+      <p class="eyebrow plain">A Space for Your Next Chapter</p>
+      <h3 class="display">Your Property Journey Starts Here</h3>
+      <p>Property listings are being updated. Contact Arman Homes for current availability — tell us your preferred location, property type and budget.</p>
+      <div class="actions">
+        <a class="btn btn-navy" href="/contact/">Tell Us What You’re Looking For <Icon name="arrow" size={17} /></a>
+        <a class="btn btn-ghost" href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />Ask on WhatsApp</a>
+      </div>
+    </div>
+    <div class="availability-browse">
+      <p class="eyebrow plain">Browse by Type</p>
+      <ul>
+        {shortcuts.map(([type, label]) => <li><a href={`/properties/?type=${type}`}>{label}<Icon name="arrow-ur" size={18} /></a></li>)}
+      </ul>
+    </div>
+  </div>
+</div>

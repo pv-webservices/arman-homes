@@ -1,0 +1,249 @@
+{
+  "hero": {
+    "alt": "Contemporary residential towers and a modern home glowing at dusk in a green Pune suburb",
+    "placement": "Homepage hero, full-bleed background",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/hero.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 177296
+    },
+    "small": {
+      "src": "/images/hero-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 56994
+    }
+  },
+  "intent-buy": {
+    "alt": "A front door opening into a warm, light-filled contemporary home",
+    "placement": "Homepage \"Buy\" intent card (tall bento tile) and Buy Property page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1024x1536",
+    "full": {
+      "src": "/images/intent-buy.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 157588
+    },
+    "small": {
+      "src": "/images/intent-buy-small.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 78026
+    }
+  },
+  "intent-rent": {
+    "alt": "A bright, furnished contemporary apartment living room with a large window",
+    "placement": "Homepage \"Rent\" intent card and Rent Property page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "medium",
+    "size": "1024x1536",
+    "full": {
+      "src": "/images/intent-rent.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 164052
+    },
+    "small": {
+      "src": "/images/intent-rent-small.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 78370
+    }
+  },
+  "intent-sell": {
+    "alt": "House keys passed across a table during a property conversation",
+    "placement": "Homepage \"Sell\" intent card and Sell Property page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1024x1024",
+    "full": {
+      "src": "/images/intent-sell.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 53710
+    },
+    "small": {
+      "src": "/images/intent-sell-small.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 28946
+    }
+  },
+  "residential-community": {
+    "alt": "A landscaped residential apartment community with a garden courtyard in morning light",
+    "placement": "Homepage residential tile, Residential Properties page hero and services page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/residential-community.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 288376
+    },
+    "small": {
+      "src": "/images/residential-community-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 92792
+    }
+  },
+  "commercial-building": {
+    "alt": "A modern glass office building with ground-floor commercial spaces in late afternoon light",
+    "placement": "Homepage commercial tile, Commercial Properties page hero and services page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/commercial-building.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 236252
+    },
+    "small": {
+      "src": "/images/commercial-building-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 81930
+    }
+  },
+  "consultation": {
+    "alt": "A couple discussing a floor plan with a property advisor across a table",
+    "placement": "Homepage about section, About Us page and Contact page",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/consultation.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 84572
+    },
+    "small": {
+      "src": "/images/consultation-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 35326
+    }
+  },
+  "pune-horizon": {
+    "alt": "Evening view across growing western Pune suburbs toward green hills",
+    "placement": "Homepage location band and contact call-to-action background (under a dark overlay)",
+    "model": "gpt-image-2.5-flare",
+    "quality": "medium",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/pune-horizon.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 276304
+    },
+    "small": {
+      "src": "/images/pune-horizon-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 85780
+    }
+  },
+  "floorplan": {
+    "alt": "A hand-drawn floor plan with a pencil and house keys on a desk",
+    "placement": "Homepage process section and Services page process visual",
+    "model": "gpt-image-2.5-flare",
+    "quality": "medium",
+    "size": "1024x1024",
+    "full": {
+      "src": "/images/floorplan.webp",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 182640
+    },
+    "small": {
+      "src": "/images/floorplan-small.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 61924
+    }
+  },
+  "listing-3bhk-hinjewadi": {
+    "alt": "Premium residential apartment tower with glass balconies in warm evening light",
+    "placement": "Featured property card and detail page: 3 BHK Premium Apartment, Hinjewadi",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/listing-3bhk-hinjewadi.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 260484
+    },
+    "small": {
+      "src": "/images/listing-3bhk-hinjewadi-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 83416
+    }
+  },
+  "listing-2bhk-wakad": {
+    "alt": "Furnished 2 BHK apartment living room with a sofa, dining corner and balcony doors",
+    "placement": "Featured property card and detail page: 2 BHK Apartment for rent, Wakad",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/listing-2bhk-wakad.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 144662
+    },
+    "small": {
+      "src": "/images/listing-2bhk-wakad-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 51372
+    }
+  },
+  "listing-villa-baner": {
+    "alt": "Two-storey contemporary luxury villa with lit interiors and a landscaped lawn at dusk",
+    "placement": "Featured property card and detail page: 4 BHK Luxury Villa, Baner",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/listing-villa-baner.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 221780
+    },
+    "small": {
+      "src": "/images/listing-villa-baner-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 69534
+    }
+  },
+  "listing-office-hinjewadi": {
+    "alt": "Modern glass commercial office building in Hinjewadi at sunset",
+    "placement": "Featured property card and detail page: Office Space (Commercial) for rent, Hinjewadi",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "full": {
+      "src": "/images/listing-office-hinjewadi.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 235008
+    },
+    "small": {
+      "src": "/images/listing-office-hinjewadi-small.webp",
+      "width": 768,
+      "height": 512,
+      "bytes": 76740
+    }
+  }
+}

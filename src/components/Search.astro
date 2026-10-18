@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+interface Props { expanded?: boolean; defaults?: Record<string, string> }
+const { expanded = false, defaults = {} } = Astro.props;
+type Field = { name: string; label: string; icon: string; options: [string, string][] };
+const fields: Field[] = [
+  { name: 'location', label: 'Location', icon: 'pin', options: [['', 'Any Location'], ['Hinjewadi', 'Hinjewadi, Pune'], ['Marunji', 'Marunji, Pune'], ['Wakad', 'Wakad, Pune'], ['Baner', 'Baner, Pune']] },
+  { name: 'type', label: 'Property Type', icon: 'home', options: [['', 'Any Type'], ['apartment', 'Apartment'], ['villa', 'Villa'], ['house', 'Independent House'], ['office', 'Office Space'], ['shop', 'Shop'], ['plot', 'Plot']] },
+  { name: 'budget', label: 'Maximum Budget', icon: 'wallet', options: [['', 'Any Budget'], ['30000', '₹30,000'], ['50000', '₹50,000'], ['100000', '₹1 Lakh'], ['5000000', '₹50 Lakh'], ['10000000', '₹1 Crore'], ['20000000', '₹2 Crore'], ['50000000', '₹5 Crore']] },
+];
+const extras: Field[] = [
+  { name: 'transaction', label: 'Transaction', icon: 'key', options: [['', 'Buy or Rent'], ['sale', 'For Sale'], ['rent', 'For Rent']] },
+  { name: 'category', label: 'Category', icon: 'building', options: [['', 'All Categories'], ['residential', 'Residential'], ['commercial', 'Commercial']] },
+  { name: 'bedrooms', label: 'Bedrooms', icon: 'bed', options: [['', 'Any Bedrooms'], ['1', '1+ Bedrooms'], ['2', '2+ Bedrooms'], ['3', '3+ Bedrooms'], ['4', '4+ Bedrooms']] },
+];
+const all = expanded ? [...extras, ...fields] : fields;
+---
+<form class:list={['property-search', { expanded }]} action="/properties/" method="get" aria-label="Search properties">
+  <div class="search-fields">
+    {all.map((field) => (
+      <label class="search-field">
+        <Icon name={field.icon} size={20} />
+        <span class="search-control">
+          <span class="field-label">{field.label}</span>
+          <select name={field.name}>{field.options.map(([value, label]) => <option value={value} selected={defaults[field.name] === value}>{label}</option>)}</select>
+        </span>
+      </label>
+    ))}
+    <button class="btn search-submit" type="submit"><Icon name="search" size={18} />Search Properties</button>
+  </div>
+  {expanded && <a class="reset-filters" href="/properties/">Clear all filters</a>}
+</form>

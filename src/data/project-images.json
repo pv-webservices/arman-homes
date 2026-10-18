@@ -1,0 +1,430 @@
+{
+  "canvas-towers": {
+    "alt": "Canvas high-rise towers at Life Republic rising above landscaped podium gardens",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/canvas-towers.webp",
+      "width": 1655,
+      "height": 1213,
+      "bytes": 246820
+    },
+    "small": {
+      "src": "/images/projects/canvas-towers-small.webp",
+      "width": 800,
+      "height": 586,
+      "bytes": 71990
+    }
+  },
+  "canvas-pool": {
+    "alt": "Canvas infinity-edge lap pool with palms and township views",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/canvas-pool.webp",
+      "width": 1662,
+      "height": 832,
+      "bytes": 138742
+    },
+    "small": {
+      "src": "/images/projects/canvas-pool-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 37240
+    }
+  },
+  "canvas-lawn": {
+    "alt": "Canvas multipurpose lawn and terraced landscape at dusk",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/canvas-lawn.webp",
+      "width": 1653,
+      "height": 827,
+      "bytes": 161212
+    },
+    "small": {
+      "src": "/images/projects/canvas-lawn-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 40012
+    }
+  },
+  "canvas-living": {
+    "alt": "Canvas living and dining room interior",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/canvas-living.webp",
+      "width": 1653,
+      "height": 827,
+      "bytes": 121976
+    },
+    "small": {
+      "src": "/images/projects/canvas-living-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 33796
+    }
+  },
+  "canvas-deck": {
+    "alt": "Canvas long balcony deck overlooking the city lights",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/canvas-deck.webp",
+      "width": 1659,
+      "height": 934,
+      "bytes": 121596
+    },
+    "small": {
+      "src": "/images/projects/canvas-deck-small.webp",
+      "width": 800,
+      "height": 450,
+      "bytes": 37774
+    }
+  },
+  "qrious-towers": {
+    "alt": "Qrious residential towers at Life Republic",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-towers.webp",
+      "width": 1693,
+      "height": 1181,
+      "bytes": 213554
+    },
+    "small": {
+      "src": "/images/projects/qrious-towers-small.webp",
+      "width": 800,
+      "height": 558,
+      "bytes": 64484
+    }
+  },
+  "qrious-club": {
+    "alt": "The Q Club entrance with landscaped water feature",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-club.webp",
+      "width": 1920,
+      "height": 960,
+      "bytes": 328188
+    },
+    "small": {
+      "src": "/images/projects/qrious-club-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 64268
+    }
+  },
+  "qrious-pool": {
+    "alt": "Qrious swimming pool beside the clubhouse",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-pool.webp",
+      "width": 1920,
+      "height": 960,
+      "bytes": 293184
+    },
+    "small": {
+      "src": "/images/projects/qrious-pool-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 58214
+    }
+  },
+  "qrious-cabana": {
+    "alt": "Poolside cabana with loungers at Qrious",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-cabana.webp",
+      "width": 1920,
+      "height": 960,
+      "bytes": 255946
+    },
+    "small": {
+      "src": "/images/projects/qrious-cabana-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 51788
+    }
+  },
+  "qrious-kids": {
+    "alt": "Aerial view of the Qrious kids’ play area",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-kids.webp",
+      "width": 1920,
+      "height": 960,
+      "bytes": 419716
+    },
+    "small": {
+      "src": "/images/projects/qrious-kids-small.webp",
+      "width": 800,
+      "height": 400,
+      "bytes": 77070
+    }
+  },
+  "qrious-living": {
+    "alt": "Qrious sample living room with city view",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/qrious-living.webp",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 112806
+    },
+    "small": {
+      "src": "/images/projects/qrious-living-small.webp",
+      "width": 800,
+      "height": 450,
+      "bytes": 25220
+    }
+  },
+  "duet-towers": {
+    "alt": "Duet towers at Life Republic against a sunset sky",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/duet-towers.webp",
+      "width": 1160,
+      "height": 1754,
+      "bytes": 266274
+    },
+    "small": {
+      "src": "/images/projects/duet-towers-small.webp",
+      "width": 800,
+      "height": 1210,
+      "bytes": 131544
+    }
+  },
+  "duet-pavilion": {
+    "alt": "Duet outdoor workstation pavilion among gardens",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/duet-pavilion.webp",
+      "width": 1920,
+      "height": 1238,
+      "bytes": 338516
+    },
+    "small": {
+      "src": "/images/projects/duet-pavilion-small.webp",
+      "width": 800,
+      "height": 516,
+      "bytes": 65942
+    }
+  },
+  "duet-stargazing": {
+    "alt": "Duet star-gazing deck with a telescope at night",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/duet-stargazing.webp",
+      "width": 1920,
+      "height": 1238,
+      "bytes": 419444
+    },
+    "small": {
+      "src": "/images/projects/duet-stargazing-small.webp",
+      "width": 800,
+      "height": 516,
+      "bytes": 72206
+    }
+  },
+  "duet-skating": {
+    "alt": "Duet skating rink surrounded by greenery",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/duet-skating.webp",
+      "width": 1920,
+      "height": 1238,
+      "bytes": 329910
+    },
+    "small": {
+      "src": "/images/projects/duet-skating-small.webp",
+      "width": 800,
+      "height": 516,
+      "bytes": 69380
+    }
+  },
+  "echoes-towers": {
+    "alt": "Echoes towers at Life Republic at sunset",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/echoes-towers.webp",
+      "width": 1819,
+      "height": 1287,
+      "bytes": 149184
+    },
+    "small": {
+      "src": "/images/projects/echoes-towers-small.webp",
+      "width": 800,
+      "height": 566,
+      "bytes": 40648
+    }
+  },
+  "echoes-entrance": {
+    "alt": "Echoes entrance plaza and retail frontage",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/echoes-entrance.webp",
+      "width": 1819,
+      "height": 912,
+      "bytes": 175876
+    },
+    "small": {
+      "src": "/images/projects/echoes-entrance-small.webp",
+      "width": 800,
+      "height": 401,
+      "bytes": 45820
+    }
+  },
+  "echoes-pool": {
+    "alt": "Echoes swimming pool with palms",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/echoes-pool.webp",
+      "width": 1819,
+      "height": 912,
+      "bytes": 224092
+    },
+    "small": {
+      "src": "/images/projects/echoes-pool-small.webp",
+      "width": 800,
+      "height": 401,
+      "bytes": 51164
+    }
+  },
+  "echoes-kids": {
+    "alt": "Echoes kids’ play area beside the towers",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/echoes-kids.webp",
+      "width": 1819,
+      "height": 912,
+      "bytes": 158942
+    },
+    "small": {
+      "src": "/images/projects/echoes-kids-small.webp",
+      "width": 800,
+      "height": 401,
+      "bytes": 44026
+    }
+  },
+  "echoes-living": {
+    "alt": "Echoes living and dining interior",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/echoes-living.webp",
+      "width": 1819,
+      "height": 912,
+      "bytes": 84424
+    },
+    "small": {
+      "src": "/images/projects/echoes-living-small.webp",
+      "width": 800,
+      "height": 401,
+      "bytes": 21362
+    }
+  },
+  "township-aerial": {
+    "alt": "Bird’s-eye view of the Life Republic township",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/township-aerial.webp",
+      "width": 1920,
+      "height": 1084,
+      "bytes": 291780
+    },
+    "small": {
+      "src": "/images/projects/township-aerial-small.webp",
+      "width": 800,
+      "height": 452,
+      "bytes": 59834
+    }
+  },
+  "township-tulips": {
+    "alt": "Tulip sculptures along a landscaped boulevard at Life Republic",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/township-tulips.webp",
+      "width": 1600,
+      "height": 1068,
+      "bytes": 353976
+    },
+    "small": {
+      "src": "/images/projects/township-tulips-small.webp",
+      "width": 800,
+      "height": 534,
+      "bytes": 98880
+    }
+  },
+  "township-roundabout": {
+    "alt": "Aerial view of a green roundabout inside Life Republic",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/township-roundabout.webp",
+      "width": 1600,
+      "height": 899,
+      "bytes": 388388
+    },
+    "small": {
+      "src": "/images/projects/township-roundabout-small.webp",
+      "width": 800,
+      "height": 449,
+      "bytes": 102810
+    }
+  },
+  "township-school": {
+    "alt": "School campus and playing fields within the township",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/township-school.webp",
+      "width": 1920,
+      "height": 1078,
+      "bytes": 382050
+    },
+    "small": {
+      "src": "/images/projects/township-school-small.webp",
+      "width": 800,
+      "height": 449,
+      "bytes": 70628
+    }
+  },
+  "township-master-layout": {
+    "alt": "Life Republic ~400 acre township master layout",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "full": {
+      "src": "/images/projects/township-master-layout.webp",
+      "width": 1920,
+      "height": 1361,
+      "bytes": 169532
+    },
+    "small": {
+      "src": "/images/projects/township-master-layout-small.webp",
+      "width": 800,
+      "height": 567,
+      "bytes": 36198
+    }
+  },
+  "location-map": {
+    "alt": "Life Republic location map showing road connectivity to Hinjawadi, Wakad and the Mumbai–Pune highway",
+    "credit": "Life Republic by Kolte Patil",
+    "full": {
+      "src": "/images/projects/location-map.webp",
+      "width": 1600,
+      "height": 1452
+    },
+    "small": {
+      "src": "/images/projects/location-map-small.webp",
+      "width": 800,
+      "height": 726
+    }
+  },
+  "film-poster": {
+    "alt": "Aerial view of Life Republic township towers",
+    "credit": "Life Republic film",
+    "full": {
+      "src": "/images/projects/film-poster.webp",
+      "width": 848,
+      "height": 364
+    },
+    "small": {
+      "src": "/images/projects/film-poster.webp",
+      "width": 848,
+      "height": 364
+    }
+  }
+}

@@ -1,0 +1,30 @@
+---
+import Picture from './Picture.astro';
+import Icon from './Icon.astro';
+interface Props { eyebrow?: string; title: string; steps: string[][]; image?: string; cta?: [string, string] }
+const { eyebrow = 'A Simple Beginning', title, steps, image = 'floorplan', cta } = Astro.props;
+---
+<section class="section process tone-sand">
+  <div class="wrap process-grid">
+    <div class="process-visual">
+      <div class="sticky-col" data-reveal="scale">
+        <div class="media process-media"><Picture name={image} sizes="(max-width: 900px) 90vw, 40vw" /></div>
+      </div>
+    </div>
+    <div class="process-copy">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 set:html={title} />
+      </div>
+      <ol class="steps" data-steps>
+        {steps.map(([heading, text], i) => (
+          <li class="step" data-reveal style={`--delay:${i * 90}ms`}>
+            <span class="step-num">0{i + 1}</span>
+            <div><h3>{heading}</h3><p>{text}</p></div>
+          </li>
+        ))}
+      </ol>
+      {cta && <a class="btn btn-navy" href={cta[0]} data-reveal>{cta[1]} <Icon name="arrow" size={17} /></a>}
+    </div>
+  </div>
+</section>

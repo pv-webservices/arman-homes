@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import Listings from '../components/Listings.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import Process from '../components/Process.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { servicePages } from '../data/service-pages';
+import { business, services } from '../data/site';
+export function getStaticPaths() { return servicePages.map((page) => ({ params: { service: page.slug }, props: { page } })); }
+const { page } = Astro.props;
+const seller = page.slug === 'sell-property';
+const filter: Record<string, string> = page.transaction ? { transaction: page.transaction } : page.category ? { category: page.category } : {};
+const listTitle = page.category === 'commercial' ? 'Commercial Spaces in Pune' : page.category === 'residential' ? 'Residential Spaces in Pune' : page.transaction === 'rent' ? 'Properties for Rent' : 'Properties for Sale';
+const related = services.filter((s) => s.slug !== page.slug && s.slug !== 'contact');
+---
+<Layout title={page.title} description={page.intro} ogImage={`/images/${page.image}.webp`}>
+  <PageHero title={page.title} eyebrow={page.eyebrow} description={page.intro} image={page.image} crumbs={[['/services/', 'Services']]}>
+    <a class="btn" href={seller ? '#seller-enquiry' : '/contact/'}>{seller ? 'Tell Us About Your Property' : 'Discuss Your Requirements'} <Icon name="arrow" size={17} /></a>
+    <a class="btn btn-ghost-light" href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />WhatsApp Us</a>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-media" data-reveal="scale"><div class="media"><Picture name={page.support} sizes="(max-width: 900px) 90vw, 45vw" /></div></div>
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Arman Homes · Pune</p>
+        <h2>{page.heading}</h2>
+        <p class="lead">{page.body}</p>
+        <p>{page.second}</p>
+        <div class="actions"><a class="btn btn-navy" href={seller ? '#seller-enquiry' : '/contact/'}>{seller ? 'Share Property Details' : 'Start a Conversation'} <Icon name="arrow" size={17} /></a><a class="link-arrow" href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <Process title={seller ? 'Start Your Selling Conversation' : 'Your Next Move, Step by Step'} steps={page.steps} />
+
+  {seller ? (
+    <section id="seller-enquiry" class="section">
+      <div class="wrap contact-layout">
+        <div class="split-copy" data-reveal>
+          <p class="eyebrow">Let’s Get Started</p>
+          <h2>Every Move Starts With a Conversation</h2>
+          <p class="lead">Share the details of your property using the enquiry form, or speak with us directly.</p>
+          <div class="actions"><a class="btn btn-navy" href={`tel:${business.tel}`}><Icon name="phone" size={17} />Call Arman Homes</a><a class="link-arrow" href={business.whatsapp} target="_blank" rel="noopener noreferrer">Chat on WhatsApp <Icon name="arrow" size={17} /></a></div>
+        </div>
+        <div data-reveal style="--delay:120ms"><InquiryForm seller /></div>
+      </div>
+    </section>
+  ) : (
+    <section class="section tone-white">
+      <div class="wrap">
+        <div class="section-head split" data-reveal>
+          <div><p class="eyebrow">Explore Your Possibilities</p><h2 set:html={listTitle} /></div>
+          <div class="head-aside"><a class="link-arrow" href={`/properties/?${new URLSearchParams(filter)}`}>Explore With Filters <Icon name="arrow" size={17} /></a></div>
+        </div>
+        <Listings filters={filter} featured />
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal><p class="eyebrow">More Ways We Can Help</p><h2>Explore Our Other Services</h2></div>
+      <div class="related-grid">
+        {related.map((s, i) => (
+          <a class="related-card" href={`/${s.slug}/`} data-reveal style={`--delay:${i * 70}ms`}>
+            <div class="media zoom"><Picture name={s.image} decorative sizes="(max-width: 560px) 90vw, (max-width: 1024px) 45vw, 22vw" /></div>
+            <h3>{s.title}<Icon name="arrow-ur" size={20} /></h3>
+            <p>{s.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</Layout>

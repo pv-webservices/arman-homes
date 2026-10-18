@@ -1,0 +1,19 @@
+---
+import { image } from '../data/images';
+interface Props { name: string; alt?: string; priority?: boolean; class?: string; sizes?: string; decorative?: boolean }
+const { name, alt, priority = false, class: className = '', sizes = '100vw', decorative = false } = Astro.props;
+const asset = image(name);
+---
+<picture class={className}>
+  <img
+    src={asset.src}
+    srcset={`${asset.small} ${asset.smallWidth}w, ${asset.src} ${asset.width}w`}
+    sizes={sizes}
+    alt={decorative ? '' : (alt ?? asset.alt)}
+    width={asset.width}
+    height={asset.height}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    decoding="async"
+  />
+</picture>

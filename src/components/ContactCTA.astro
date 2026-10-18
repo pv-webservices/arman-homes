@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import Picture from './Picture.astro';
+import { business } from '../data/site';
+---
+<section class="contact-band on-dark">
+  <div class="contact-band-bg"><Picture name="pune-horizon" decorative sizes="100vw" /></div>
+  <div class="wrap contact-band-grid">
+    <div data-reveal>
+      <p class="eyebrow">Let’s Connect</p>
+      <h2>Looking to Buy, Sell or Rent<br /> Property in Pune?</h2>
+      <p class="lead">Get expert guidance and personalized support from Arman Homes. We’re here to help you make the right move.</p>
+      <div class="actions">
+        <a class="btn" href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a>
+        <a class="btn btn-ghost-light" href="/contact/">Get in Touch <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+    <address class="contact-box" data-reveal style="--delay:120ms">
+      <a href={`tel:${business.tel}`}><Icon name="phone" size={20} />{business.phone}</a>
+      <a href={`mailto:${business.email}`}><Icon name="mail" size={20} />{business.email}</a>
+      <a href={business.maps} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={20} />{business.location}</a>
+      <i aria-hidden="true"></i>
+    </address>
+  </div>
+</section>

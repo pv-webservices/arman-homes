@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import InquiryForm from '../../components/InquiryForm.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Township from '../../components/Township.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import { image } from '../../data/images';
+import { business } from '../../data/site';
+import { projects, type Project } from '../../data/projects';
+export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
+interface Props { project: Project }
+const { project: p } = Astro.props;
+const wa = (text: string) => `${business.whatsapp}?text=${encodeURIComponent(text)}`;
+const others = projects.filter((x) => x.slug !== p.slug).slice(0, 2);
+const gallery = p.gallery.map((name) => ({ name, ...image(name) }));
+const amenityIcons = ['layers', 'heart', 'home', 'users', 'shield', 'chart'];
+---
+<Layout title={`${p.name} at Life Republic`} description={`${p.name} at Life Republic, Hinjawadi: ${p.homes} homes from ${p.startingPrice}. ${p.tagline} Configurations, amenities, brochure and site visits with Arman Homes.`} ogImage={image(p.hero).src}>
+  <section class="project-hero on-dark">
+    <div class="project-hero-bg"><Picture name={p.hero} priority sizes="100vw" decorative /></div>
+    <div class="wrap">
+      <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/projects/">Projects</a><span aria-hidden="true">/</span><span aria-current="page">{p.name}</span></nav>
+      <span class="chip-status hero-in">{p.status}</span>
+      <h1 class="hero-in" style="--delay:80ms">{p.name}</h1>
+      <p class="lead hero-in" style="--delay:160ms">{p.tagline}</p>
+      <p class="project-meta hero-in" style="--delay:220ms"><span><strong>{p.homes}</strong> residences</span><span>Starting <strong>{p.startingPrice}</strong></span><span>Life Republic, Hinjawadi</span>{p.rera && <span>MahaRERA <strong>{p.rera}</strong></span>}</p>
+      <div class="actions hero-in" style="--delay:280ms">
+        <a class="btn" href="#enquire">Book a Site Visit <Icon name="arrow" size={17} /></a>
+        {p.brochure && <a class="btn btn-ghost-light" href={p.brochure.href} download><Icon name="download" size={17} />Brochure · {p.brochure.size}</a>}
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap stat-strip"><ul>{p.stats.map((s) => <li><strong>{s.value}</strong><span>{s.label}</span></li>)}</ul></div>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Overview</p>
+        <h2>{p.name} at Life Republic</h2>
+        <p class="lead">{p.intro[0]}</p>
+        <p>{p.intro[1]}</p>
+        <ul class="check-list">{p.highlights.map((h) => <li><Icon name="check" size={16} />{h}</li>)}</ul>
+        <div class="actions"><a class="btn btn-navy" href={wa(`Hello Arman Homes, I am interested in ${p.name} at Life Republic. Please share details.`)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Enquire on WhatsApp</a></div>
+      </div>
+      <div class="split-media" data-reveal="scale"><div class="media"><Picture name={p.gallery[1] ?? p.card} sizes="(max-width: 900px) 92vw, 45vw" /><span class="impression">Artist’s impression</span></div></div>
+    </div>
+  </section>
+
+  <section class="section tone-sand" aria-labelledby="config-title">
+    <div class="wrap">
+      <div class="section-head split" data-reveal>
+        <div><p class="eyebrow">Configurations &amp; Pricing</p><h2 id="config-title">Choose Your Home</h2></div>
+        {p.offer && <span class="offer-tag"><Icon name="key" size={15} />{p.offer}</span>}
+      </div>
+      <div class="config-grid">
+        {p.configurations.map((c, i) => (
+          <article class="config-card" data-reveal style={`--delay:${i * 70}ms`}>
+            <h3>{c.type}</h3>
+            <p class="config-area">{c.area}</p>
+            <p class="config-price">Starting<strong>{c.price}</strong></p>
+            {c.note && <p class="config-note">{c.note}</p>}
+            <a class="link-arrow" href={wa(`Hello Arman Homes, please share the price sheet for the ${c.type} (${c.area}) at ${p.name}, Life Republic.`)} target="_blank" rel="noopener noreferrer">Get Price Sheet <Icon name="arrow" size={15} /></a>
+          </article>
+        ))}
+      </div>
+      <p class="pricing-foot">{p.pricingNote ?? 'Indicative starting prices.'} Prices, areas and offers are subject to change — confirm the current price sheet before booking.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gallery-title">
+    <div class="wrap">
+      <div class="section-head" data-reveal><p class="eyebrow">Gallery</p><h2 id="gallery-title">A Closer Look</h2></div>
+      <div class="gallery-grid" data-gallery-group>
+        {gallery.map((g, i) => (
+          <button type="button" data-lightbox-item={i} data-full={g.src} data-alt={g.alt} aria-label={`Open image: ${g.alt}`}>
+            <img src={i === 0 ? g.src : g.small} alt="" width={g.width} height={g.height} loading="lazy" decoding="async" />
+          </button>
+        ))}
+      </div>
+      <dialog class="lightbox-modal" data-gallery-modal aria-label={`${p.name} gallery`}>
+        <button class="modal-close" type="button" data-lightbox-close aria-label="Close gallery"><Icon name="close" size={20} /></button>
+        <figure><img src={gallery[0].src} alt={gallery[0].alt} width={gallery[0].width} height={gallery[0].height} loading="lazy" /><figcaption><span data-caption></span><span>Artist’s impression</span></figcaption></figure>
+        <button class="lightbox-nav prev" type="button" data-lightbox-prev aria-label="Previous image"><Icon name="chevronl" size={22} /></button>
+        <button class="lightbox-nav next" type="button" data-lightbox-next aria-label="Next image"><Icon name="chevron" size={22} /></button>
+      </dialog>
+    </div>
+  </section>
+
+  <section class="section on-dark" aria-labelledby="amenities-title">
+    <div class="wrap">
+      <div class="section-head center" data-reveal><p class="eyebrow">Amenities</p><h2 id="amenities-title">Designed for Everyday Living</h2></div>
+      <ul class="amenity-grid">{p.amenities.map((a, i) => <li data-reveal style={`--delay:${i * 60}ms`}><Icon name={amenityIcons[i % amenityIcons.length]} size={22} />{a}</li>)}</ul>
+    </div>
+  </section>
+
+  <Township />
+
+  <section class="section tone-sand" id="enquire" aria-labelledby="enquire-title">
+    <div class="wrap contact-layout">
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Book a Site Visit</p>
+        <h2 id="enquire-title">Visit {p.name} With Arman Homes</h2>
+        <p class="lead">Share your preferred configuration and budget. We’ll send the latest price sheet and arrange a site visit at Life Republic.</p>
+        <div class="actions"><a class="btn btn-navy" href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a><a class="link-arrow" href={wa(`Hello Arman Homes, I would like to book a site visit for ${p.name} at Life Republic.`)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />WhatsApp Us</a></div>
+        {p.rera && <div class="rera-box" style="margin-top:32px"><span>MahaRERA Registration</span><strong>{p.rera}</strong><a class="link-arrow" href="https://maharera.maharashtra.gov.in/" target="_blank" rel="noopener noreferrer">maharera.maharashtra.gov.in <Icon name="arrow-ur" size={14} /></a></div>}
+        <p class="disclaimer">Images are artist’s impressions from the developer’s brochure. Specifications, areas, prices and amenities are indicative and may change. Arman Homes assists buyers with project information and site visits.</p>
+      </div>
+      <div data-reveal style="--delay:120ms"><InquiryForm project={p.name} /></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head split" data-reveal><div><p class="eyebrow">More at Life Republic</p><h2 id="more-title">Explore Other Projects</h2></div><a class="link-arrow" href="/projects/">All Projects <Icon name="arrow" size={17} /></a></div>
+      <div class="project-grid">{others.map((o, i) => <ProjectCard project={o} index={i} />)}</div>
+    </div>
+  </section>
+  <ContactCTA />
+</Layout>

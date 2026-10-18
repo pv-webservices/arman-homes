@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import FilmSection from '../../components/FilmSection.astro';
+import Township from '../../components/Township.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Icon from '../../components/Icon.astro';
+import { projects } from '../../data/projects';
+---
+<Layout title="Projects at Life Republic, Hinjawadi" description="Compare Canvas – D Tower, Qrious, Echoes and Duet at Life Republic by Kolte Patil: configurations, starting prices, amenities, brochures and RERA details." ogImage="/images/projects/township-aerial.webp">
+  <PageHero title="Projects at Life Republic" eyebrow="Featured Projects" description="Four new launches in a ~400 acre integrated township near the Hinjawadi IT hub — from 2 BHK homes to 3.5 BHK high-rise residences." image="township-aerial">
+    <a class="btn" href="#projects">Compare Projects <Icon name="arrow" size={17} /></a>
+    <button class="play-link" type="button" data-film-open><span class="play-ring"><Icon name="play" size={20} /></span>Watch the Film</button>
+  </PageHero>
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Choose Your Home</p>
+        <h2>Four Projects, One Township</h2>
+        <p class="lead">Each project has its own character — from Canvas’s 35-storey views to Echoes’ family-first planning. Starting prices as shared by the developer; ask us for the current price sheet.</p>
+      </div>
+      <div class="project-grid">{projects.map((p, i) => <ProjectCard project={p} index={i} />)}</div>
+    </div>
+  </section>
+  <FilmSection />
+  <Township />
+  <ContactCTA />
+</Layout>

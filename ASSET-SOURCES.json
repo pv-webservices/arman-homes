@@ -1,0 +1,305 @@
+[
+  {
+    "name": "house",
+    "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "living",
+    "url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "interior",
+    "url": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "residential",
+    "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "office",
+    "url": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "skyline",
+    "url": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1800&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Illustrative editorial architecture; not Arman Homes inventory or a claim of geographic location."
+  },
+  {
+    "name": "hero",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "placement": "Homepage hero, full-bleed background",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "intent-buy",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1024x1536",
+    "placement": "Homepage \"Buy\" intent card (tall bento tile) and Buy Property page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "intent-rent",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "medium",
+    "size": "1024x1536",
+    "placement": "Homepage \"Rent\" intent card and Rent Property page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "intent-sell",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1024x1024",
+    "placement": "Homepage \"Sell\" intent card and Sell Property page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "residential-community",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "placement": "Homepage residential tile, Residential Properties page hero and services page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "commercial-building",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "placement": "Homepage commercial tile, Commercial Properties page hero and services page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "consultation",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "high",
+    "size": "1536x1024",
+    "placement": "Homepage about section, About Us page and Contact page",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "pune-horizon",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-flare",
+    "quality": "medium",
+    "size": "1536x1024",
+    "placement": "Homepage location band and contact call-to-action background (under a dark overlay)",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "floorplan",
+    "source": "OpenAI Image API (build-time, scripts/generate-images.mjs)",
+    "model": "gpt-image-2.5-flare",
+    "quality": "medium",
+    "size": "1024x1024",
+    "placement": "Homepage process section and Services page process visual",
+    "prompt": "scripts/images/manifest.mjs",
+    "usage": "AI-generated illustrative imagery; not Arman Homes inventory or a specific real property."
+  },
+  {
+    "name": "logo / logo-reversed / logo-mark",
+    "source": "Derived from the supplied public/website logo.jpeg by scripts/prepare-logo.mjs",
+    "usage": "Background removed; reversed variant turns dark lettering ivory for navy surfaces. Artwork unchanged."
+  },
+  {
+    "name": "project:canvas-towers",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:canvas-pool",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:canvas-lawn",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:canvas-living",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:canvas-deck",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-towers",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-club",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-pool",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-cabana",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-kids",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:qrious-living",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:duet-towers",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:duet-pavilion",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:duet-stargazing",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:duet-skating",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:echoes-towers",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:echoes-entrance",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:echoes-pool",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:echoes-kids",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:echoes-living",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:township-aerial",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:township-tulips",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:township-roundabout",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:township-school",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:township-master-layout",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Artist’s impression — Life Republic by Kolte Patil brochure",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:location-map",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Life Republic by Kolte Patil",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "project:film-poster",
+    "source": "Client-supplied Life Republic brochures / film (source-assets/), prepared by scripts/prepare-project-assets.mjs",
+    "credit": "Life Republic film",
+    "usage": "Developer artist’s impressions and township photography supplied by Arman Homes for project marketing."
+  },
+  {
+    "name": "video:life-republic-loop / life-republic-film",
+    "source": "source-assets/video/Life Republic Video.mp4 (client-supplied), cropped and re-encoded with ffmpeg",
+    "usage": "Background loop and on-demand full film. No AI video generated."
+  },
+  {
+    "name": "brochures",
+    "source": "source-assets/pdfs (client-supplied), recompressed by scripts/prepare-brochures.py",
+    "usage": "Downloadable project brochures and township master layout."
+  }
+]

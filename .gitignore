@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+output/
+.playwright-cli/
+
+# Raw client source material (PDF brochures, master video). Optimized derivatives live in public/.
+source-assets/

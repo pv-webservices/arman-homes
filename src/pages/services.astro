@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import Process from '../components/Process.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { services } from '../data/site';
+import { servicePages } from '../data/service-pages';
+const descriptions = [
+  'Buying starts with knowing what matters. Share your location, budget and space requirements, and discuss the next steps in your search for a home or commercial property.',
+  'Thinking about selling? Tell us about your property, its location and your expectations. Start with a clear conversation about your plans and our selling assistance.',
+  'Your next rental should fit your needs today. Enquire about residential or commercial rental requirements, with availability and terms confirmed for each property.',
+  'A home is a personal choice. Discuss your apartment, villa, house or plot requirements and what you need from your preferred location in Pune.',
+  'A place for your business deserves a considered search. Share your intended use, size, location and budget to begin your commercial property enquiry.',
+  'Have questions before you begin? Talk to Arman Homes about your requirements, the information you need and how to take your next property step.',
+];
+---
+<Layout title="Real Estate Services in Pune" description="Explore Arman Homes services for buying, selling and renting property, residential and commercial enquiries, and personalized property assistance in Pune.">
+  <PageHero title="Complete Real Estate Solutions" eyebrow="Our Services" description="Different property goals. One place to start your conversation." image="house">
+    <a class="btn" href="#buy-property">Explore Services <Icon name="arrow" size={17} /></a>
+    <a class="btn btn-ghost-light" href="/contact/">Talk to Us</a>
+  </PageHero>
+
+  {services.map((s, i) => (
+    <section class:list={['section', 'service-row', { 'tone-sand': i % 2 === 1 }]} id={s.slug}>
+      <div class:list={['wrap', 'split', { reverse: i % 2 === 1 }]}>
+        <div class="split-media" data-reveal="scale"><a class="media zoom" href={`/${s.slug}/`} tabindex="-1" aria-hidden="true"><Picture name={s.image} decorative sizes="(max-width: 900px) 90vw, 45vw" /></a></div>
+        <div class="split-copy" data-reveal>
+          <span class="service-index" aria-hidden="true">0{i + 1}</span>
+          <p class="eyebrow"><Icon name={s.icon} size={16} /> {s.short}</p>
+          <h2>{s.title}</h2>
+          <p class="lead">{descriptions[i]}</p>
+          <div class="actions"><a class="btn btn-navy" href={`/${s.slug}/`}>{s.action} <Icon name="arrow" size={17} /></a></div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <Process title="How Every Conversation Begins" steps={servicePages[0].steps} cta={['/contact/', 'Share Your Requirements']} />
+  <ContactCTA />
+</Layout>

@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Search from '../../components/Search.astro';
+import Listings from '../../components/Listings.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Icon from '../../components/Icon.astro';
+---
+<Layout title="Properties in Pune" description="Explore residential and commercial property requirements in Pune. Filter by location, type, budget and sale or rent, and contact Arman Homes for availability.">
+  <PageHero title="Find Your Next Space" eyebrow="Properties in Pune" description="A home to make your own. A space to grow your business. Start with what matters to you." image="residential">
+    <a class="btn" href="#search">Search Properties <Icon name="arrow" size={17} /></a>
+    <a class="btn btn-ghost-light" href="/contact/">Request Availability</a>
+  </PageHero>
+  <section class="section" id="search">
+    <div class="wrap">
+      <div class="section-head" data-reveal><p class="eyebrow">Refine Your Search</p><h2>What Are You Looking For?</h2></div>
+      <Search expanded />
+      <p class="filter-summary" data-filter-summary>Choose your preferences to explore published properties. Rental budgets are per month.</p>
+      <Listings />
+    </div>
+  </section>
+  <ContactCTA />
+</Layout>

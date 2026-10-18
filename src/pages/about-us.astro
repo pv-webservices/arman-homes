@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Picture from '../components/Picture.astro';
+import Benefits from '../components/Benefits.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import Icon from '../components/Icon.astro';
+import { business } from '../data/site';
+const offer = [
+  ['home', 'Buy Property', '/buy-property/'],
+  ['handshake', 'Sell Property', '/sell-property/'],
+  ['key', 'Rent Property', '/rent-property/'],
+  ['building', 'Residential Properties', '/residential-properties/'],
+  ['office', 'Commercial Properties', '/commercial-properties/'],
+  ['users', 'Property Assistance', '/contact/'],
+];
+---
+<Layout title="About Us" description="Meet Arman Homes, a real estate agency in Hinjewadi Marunji, Pune. Explore our approach to buying, selling and renting residential and commercial property." ogImage="/images/consultation.webp">
+  <PageHero title="More Than Properties. A Better Tomorrow." eyebrow="About Arman Homes" description="Your property plans are personal. We believe the conversation should be, too." image="consultation">
+    <a class="btn" href="/contact/">Start a Conversation <Icon name="arrow" size={17} /></a>
+    <a class="btn btn-ghost-light" href="/services/">Our Services</a>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-media" data-reveal="scale"><div class="media"><Picture name="interior" sizes="(max-width: 900px) 90vw, 45vw" /></div></div>
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">{business.tagline}</p>
+        <h2>A Thoughtful Approach to Your Next Move</h2>
+        <p class="lead">Arman Homes is a real estate agency based in Hinjewadi Marunji, Pune. We help people explore buying, selling and renting residential and commercial property.</p>
+        <p>Every enquiry starts with understanding what matters to you: where you want to be, how you want to use the space, and what you need from the next chapter. That conversation gives your property search a clear direction.</p>
+        <div class="actions"><a class="btn btn-navy" href="/contact/">Start a Conversation <Icon name="arrow" size={17} /></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-sand">
+    <div class="wrap">
+      <div class="section-head center" data-reveal><p class="eyebrow">What We Help With</p><h2>One Agency, Every Property Step</h2></div>
+      <ul class="offer-grid">
+        {offer.map(([icon, label, href], i) => <li data-reveal style={`--delay:${i * 60}ms`}><a href={href}><span><Icon name={icon} size={26} /></span>{label}<Icon name="arrow-ur" size={18} /></a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <Benefits />
+
+  <section class="section">
+    <div class="wrap split reverse">
+      <div class="split-media" data-reveal="scale"><div class="media"><Picture name="residential-community" sizes="(max-width: 900px) 90vw, 45vw" /></div></div>
+      <div class="split-copy" data-reveal>
+        <p class="eyebrow">Our Location, Your Possibilities</p>
+        <h2>Rooted in Pune. Focused on You.</h2>
+        <p class="lead">From our base in Hinjewadi Marunji, we welcome enquiries about residential and commercial spaces in Pune.</p>
+        <p>Tell us what you are considering. A home to buy, a property to sell, a rental or a commercial space — we are here to discuss your requirements and the next step.</p>
+        <div class="actions"><a class="btn btn-navy" href="/services/">Discover Our Services <Icon name="arrow" size={17} /></a><a class="link-arrow" href={business.maps} target="_blank" rel="noopener noreferrer">Explore the Area <Icon name="arrow-ur" size={17} /></a></div>
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</Layout>

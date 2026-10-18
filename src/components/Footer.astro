@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { business, navigation, services } from '../data/site';
+import { projects } from '../data/projects';
+---
+<footer class="site-footer on-dark">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo" aria-label="Arman Homes — Home"><img src="/images/logo-reversed.webp" width="520" height="163" alt="Arman Homes" loading="lazy" /></a>
+      <p class="footer-tagline">{business.tagline}</p>
+      <p>At Arman Homes, we help you buy, sell and rent residential and commercial properties in Pune with transparency and personalized guidance.</p>
+    </div>
+    <div>
+      <h2>Quick Links</h2>
+      <ul>{navigation.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
+    </div>
+    <div>
+      <h2>Projects & Services</h2>
+      <ul>
+        {projects.map((p) => <li><a href={`/projects/${p.slug}/`}>{p.name}</a></li>)}
+        {services.slice(0, 3).map((s) => <li><a href={`/${s.slug}/`}>{s.title}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2>Contact Info</h2>
+      <address>
+        <a href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a>
+        <a href={`mailto:${business.email}`}><Icon name="mail" size={17} />{business.email}</a>
+        <a href={business.maps} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={17} />{business.location}</a>
+        <a href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Chat on WhatsApp</a>
+      </address>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© {new Date().getFullYear()} Arman Homes. All Rights Reserved.</p>
+    <a href="/privacy-policy/">Privacy Policy</a>
+    <span class="footer-sign">Find Your Dream Property With Arman Homes</span>
+    <p class="footer-note">Project renders are artist’s impressions from developer brochures. Prices, areas and offers are indicative and subject to change; verify project details on maharera.maharashtra.gov.in.</p>
+  </div>
+</footer>
+
+<a class="whatsapp-fab" href={business.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Chat with Arman Homes on WhatsApp"><Icon name="whatsapp" size={26} /></a>
+<nav class="action-bar" aria-label="Quick contact">
+  <a href={`tel:${business.tel}`}><Icon name="phone" size={19} />Call</a>
+  <a href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={19} />WhatsApp</a>
+  <a href="/contact/" class="action-primary"><Icon name="mail" size={19} />Enquire</a>
+</nav>

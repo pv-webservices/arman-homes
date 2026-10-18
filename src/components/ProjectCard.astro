@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+import Picture from './Picture.astro';
+import type { Project } from '../data/projects';
+interface Props { project: Project; index?: number }
+const { project: p, index = 0 } = Astro.props;
+---
+<article class="project-card" data-reveal style={`--delay:${index * 80}ms`}>
+  <div class="media zoom">
+    <Picture name={p.card} sizes="(max-width: 860px) 92vw, 46vw" />
+    <span class="badge">{p.status}</span>
+    <span class="impression">Artist’s impression</span>
+  </div>
+  <div class="project-body">
+    <p class="eyebrow">Life Republic · Hinjawadi</p>
+    <h3><a href={`/projects/${p.slug}/`}>{p.name}</a></h3>
+    <p class="tagline">{p.tagline}</p>
+    <div class="project-facts">
+      <span>Homes<strong>{p.homes}</strong></span>
+      <span>Starting<strong>{p.startingPrice}</strong></span>
+      <span>{p.stats[0].label}<strong>{p.stats[0].value}</strong></span>
+    </div>
+    <div class="project-actions">
+      <a class="btn btn-sm" href={`/projects/${p.slug}/`}>Explore Project <Icon name="arrow" size={15} /></a>
+      {p.brochure && <a class="link-arrow" href={p.brochure.href} download><Icon name="download" size={16} />Brochure</a>}
+    </div>
+  </div>
+</article>

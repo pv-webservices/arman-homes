@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { business, navigation, services } from '../data/site';
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || (href === '/properties/' && path.startsWith('/properties/')) || (href === '/projects/' && path.startsWith('/projects/')) || (href === '/services/' && services.some((s) => s.slug !== 'contact' && path === `/${s.slug}/`));
+---
+<header class="site-header" data-header>
+  <div class="wrap header-bar">
+    <a href="/" class="brand" aria-label="Arman Homes — Home">
+      <img src="/images/logo-reversed.webp" width="520" height="163" alt="" />
+    </a>
+    <nav class="primary-nav" aria-label="Main navigation">
+      {navigation.map(([href, label]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <a class="header-phone" href={`tel:${business.tel}`}><Icon name="phone" size={17} /><span>{business.phone}</span></a>
+      <a class="btn btn-sm header-cta" href="/properties/">Explore Properties <Icon name="arrow" size={16} /></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="bars" aria-hidden="true"><i></i><i></i></span><span class="sr-only" data-menu-label>Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu on-dark" id="mobile-menu" inert>
+  <div class="wrap mobile-menu-inner">
+    <nav aria-label="Mobile navigation" class="mobile-links">
+      {navigation.map(([href, label], i) => <a href={href} style={`--i:${i}`} aria-current={isCurrent(href) ? 'page' : undefined}><span>0{i + 1}</span>{label}</a>)}
+    </nav>
+    <div class="mobile-services">
+      <p class="eyebrow plain">Services</p>
+      <ul>{services.filter((s) => s.slug !== 'contact').map((s) => <li><a href={`/${s.slug}/`}>{s.title}</a></li>)}</ul>
+    </div>
+    <div class="mobile-contact">
+      <a class="btn" href={`tel:${business.tel}`}><Icon name="phone" size={18} />Call {business.phone}</a>
+      <a class="btn btn-ghost-light" href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />Chat on WhatsApp</a>
+      <a class="mobile-email" href={`mailto:${business.email}`}>{business.email}</a>
+    </div>
+  </div>
+</div>

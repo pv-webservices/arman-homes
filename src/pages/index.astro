@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import Search from '../components/Search.astro';
+import Listings from '../components/Listings.astro';
+import Benefits from '../components/Benefits.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import FilmSection from '../components/FilmSection.astro';
+import Township from '../components/Township.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { business, services } from '../data/site';
+import { projects, projectBySlug } from '../data/projects';
+const slides = projects.map((p) => ({ project: p, image: p.slug === 'duet' ? 'duet-stargazing' : p.slug === 'qrious' ? 'qrious-pool' : p.hero }));
+const spotlight = projectBySlug('canvas-d-tower')!;
+const SLIDE_MS = 7000;
+---
+<Layout title="Premium Homes at Life Republic, Pune" description="Explore Canvas – D Tower, Qrious, Echoes and Duet at Life Republic, Hinjawadi with Arman Homes. 2, 2.5, 3 & 3.5 BHK homes, price sheets, brochures and site visits." ogImage="/images/projects/canvas-towers.webp">
+  <!-- Hero: project slideshow -->
+  <section class="home-hero on-dark" data-hero style={`--slide-ms:${SLIDE_MS}ms`} data-slide-ms={SLIDE_MS}>
+    <div class="hero-slides" aria-hidden="true">
+      {slides.map((s, i) => <div class:list={['hero-slide', { 'is-active': i === 0 }]} data-slide><Picture name={s.image} priority={i === 0} decorative sizes="100vw" /></div>)}
+    </div>
+    <div class="wrap home-hero-inner">
+      <div class="home-hero-copy">
+        <p class="eyebrow hero-in">Life Republic · Hinjawadi, Pune</p>
+        <h1 class="hero-in" style="--delay:90ms">Find the Right Property <span class="gold">with Confidence</span></h1>
+        <p class="lead hero-in" style="--delay:180ms">Premium 2, 2.5, 3 &amp; 3.5 BHK residences across four new launches in a 400+ acre integrated township — with price sheets, brochures and site visits arranged by Arman Homes.</p>
+        <div class="actions hero-in" style="--delay:270ms">
+          <a class="btn" href="/projects/">Explore Projects <Icon name="arrow" size={17} /></a>
+          <button class="play-link" type="button" data-film-open><span class="play-ring"><Icon name="play" size={20} /></span>Watch the Film</button>
+        </div>
+      </div>
+      <div class="hero-chips hero-in" style="--delay:360ms" aria-live="polite">
+        {slides.map(({ project: p }, i) => (
+          <a class:list={['hero-chip', { 'is-active': i === 0 }]} href={`/projects/${p.slug}/`} data-chip tabindex={i === 0 ? 0 : -1} aria-hidden={i === 0 ? undefined : 'true'}>
+            <span class="chip-status">{p.status}</span>
+            <h2>{p.name}</h2>
+            <p>{p.tagline}</p>
+            <span class="chip-facts"><span>Homes<strong>{p.homes}</strong></span><span>Starting<strong>{p.startingPrice}</strong></span></span>
+            <span class="link-arrow">View Project <Icon name="arrow" size={16} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="hero-controls">
+      <div class="wrap">
+        <ol aria-label="Featured projects">
+          {slides.map(({ project: p }, i) => <li><button type="button" data-slide-to={i} aria-current={i === 0 ? 'true' : 'false'}><span>0{i + 1}</span>{p.name}<i></i></button></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap hero-search"><Search /></div>
+
+  <!-- Category shortcuts -->
+  <section class="categories" aria-label="Explore our services">
+    <div class="wrap category-row">
+      {services.map((s) => <a href={`/${s.slug}/`}><Icon name={s.icon} size={34} /><span>{s.title}</span></a>)}
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="section projects" aria-labelledby="projects-title">
+    <div class="wrap">
+      <div class="section-head split" data-reveal>
+        <div>
+          <p class="eyebrow">Featured Projects</p>
+          <h2 id="projects-title">New Launches at Life Republic</h2>
+          <p class="lead">Four landmark residences by Kolte Patil near the Hinjawadi IT hub. Compare layouts and starting prices, download brochures and book a site visit with Arman Homes.</p>
+        </div>
+        <a class="link-arrow" href="/projects/">View All Projects <Icon name="arrow" size={17} /></a>
+      </div>
+      <div class="project-grid">{projects.map((p, i) => <ProjectCard project={p} index={i} />)}</div>
+    </div>
+  </section>
+
+  <!-- Spotlight -->
+  <section class="section spotlight on-dark" aria-labelledby="spotlight-title">
+    <div class="wrap spotlight-grid">
+      <div class="spotlight-media" data-reveal="scale">
+        <div class="media"><Picture name="canvas-deck" sizes="(max-width: 960px) 92vw, 52vw" /></div>
+        <div class="media spotlight-inset"><Picture name="canvas-pool" sizes="(max-width: 960px) 45vw, 22vw" /></div>
+      </div>
+      <div class="spotlight-copy" data-reveal>
+        <p class="eyebrow">Spotlight · {spotlight.status}</p>
+        <h2 id="spotlight-title">Canvas – D Tower. A New Height of Living.</h2>
+        <p class="lead">{spotlight.intro[0]}</p>
+        <div class="spotlight-stats">{spotlight.stats.map((s) => <div><strong>{s.value}</strong><span>{s.label}</span></div>)}</div>
+        <ul class="price-list">{spotlight.configurations.map((c) => <li><span>{c.type}</span><span>{c.area}</span><strong>{c.price}</strong></li>)}</ul>
+        <p class="fine-print">{spotlight.pricingNote} MahaRERA No. {spotlight.rera}</p>
+        <div class="actions">
+          <a class="btn" href={`/projects/${spotlight.slug}/`}>Explore Canvas – D Tower <Icon name="arrow" size={17} /></a>
+          <a class="btn btn-ghost-light" href={`${business.whatsapp}?text=${encodeURIComponent('Hello Arman Homes, please share the latest price sheet for Canvas – D Tower at Life Republic.')}`} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Get Price Sheet</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FilmSection />
+
+  <Township />
+
+  <!-- Handpicked properties (reference "Featured Properties") -->
+  <section class="section tone-white" aria-labelledby="listings-title">
+    <div class="wrap">
+      <div class="section-head split" data-reveal>
+        <div>
+          <p class="eyebrow">Featured Properties</p>
+          <h2 id="listings-title">Discover Premium Properties in Pune</h2>
+          <p class="lead">A handpicked selection of residential and commercial properties for sale and rent.</p>
+        </div>
+        <a class="link-arrow" href="/properties/">View All Properties <Icon name="arrow" size={17} /></a>
+      </div>
+      <Listings featured />
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about-split" aria-labelledby="about-title">
+    <div class="about-copy" data-reveal>
+      <p class="eyebrow">About Us</p>
+      <h2 id="about-title">Arman Homes</h2>
+      <h3>More Than Properties,<br />A Better Tomorrow</h3>
+      <p>At Arman Homes, we believe a home is more than just a property — it’s a foundation for your dreams. Based in Hinjewadi Marunji, we help you buy, sell and rent residential and commercial properties in Pune with transparency and personalized service.</p>
+      <a class="btn" href="/about-us/">Know More About Us <Icon name="arrow" size={17} /></a>
+    </div>
+    <div class="about-visual">
+      <Picture name="canvas-living" sizes="(max-width: 900px) 100vw, 52vw" />
+      <div class="about-panel"><p>Spaces for a Brighter Tomorrow</p><i aria-hidden="true"></i></div>
+    </div>
+  </section>
+
+  <Benefits />
+  <ContactCTA />
+</Layout>
