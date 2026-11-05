@@ -92,19 +92,11 @@ Search URL parameters: `location`, `type`, `budget`, `transaction`, `category`, 
 
 ## Enquiries
 
-Without `PUBLIC_FORM_ENDPOINT`, both forms prepare a WhatsApp draft in the visitor's browser. The user must explicitly open WhatsApp, review and send it. No enquiry is sent by this build or by local QA. Drafts are invalidated when fields change. Phone, required-field and email validation, accessible feedback and a honeypot are included. Buttons remain disabled if JavaScript is unavailable; direct phone/email contact remains available.
+Enquiries are **WhatsApp-only**. No enquiry is ever sent to email or to any other service by this site. When a visitor presses **Send on WhatsApp**, the form is validated, a message is built from the field labels and values (`src/scripts/whatsapp.mjs`, tested in `tests/whatsapp.test.mjs`) and WhatsApp opens in a new tab with it prefilled for `business.whatsapp` in `src/data/site.ts`. Nothing reaches Arman Homes until the visitor presses send in WhatsApp. If the browser blocks the new tab, an "Open WhatsApp to Send" link is shown instead. The link is hidden again as soon as a field changes.
 
-To enable direct delivery, configure an **HTTPS JSON POST endpoint** in `.env`, rebuild and test with the actual provider:
+The contact, seller and project forms all work this way. Project forms open with "I would like to enquire about <project>" and include the project name. Validation (required fields, phone, email format), accessible feedback and a honeypot are included. Buttons stay disabled without JavaScript, and phone and WhatsApp links remain available.
 
-```dotenv
-PUBLIC_FORM_ENDPOINT=https://your-approved-service.example/enquiry
-```
-
-The endpoint must accept JSON and CORS from the production origin, return a JSON object `{ "success": true }` only after accepting the enquiry, and use appropriate non-2xx failure responses. Timeout is 15 seconds. The client preserves entered fields on failure. Client validation and the honeypot do not replace endpoint validation, origin checks, rate limits and provider-side spam controls.
-
-Contact payload fields: `full_name`, `phone`, `email`, `inquiry_type`, `message`, `consent`, `website` (honeypot). Seller payload: `full_name`, `phone`, `property_location`, `property_type`, `property_details`, `message`, `consent`, `website`. No credentials belong in browser-exposed environment variables.
-
-Review the privacy copy, service descriptions and real handling practices with the owner when configuring delivery. Test real receipt separately; a local draft or mocked request is not delivery evidence.
+The business email (`business.email`) is shown as plain text in the contact page, footer, contact banner and mobile menu. It is deliberately not a `mailto:` link and not an enquiry channel.
 
 ## Domain and indexing
 
@@ -154,6 +146,6 @@ node scripts/interaction-qa.mjs http://127.0.0.1:4330
 node scripts/shots.mjs http://127.0.0.1:4330 1440 /,/contact/
 ```
 
-`site-qa.mjs` sweeps all 12 pages at 1440/1024/768/390/320px (status, overflow, one H1, unique titles, descriptions, broken images, uncaught errors), runs Axe WCAG 2.1 AA at 1440 and 390px after animations settle, checks every internal link and fragment, and writes `output/qa/site-qa.json` plus screenshots. `interaction-qa.mjs` checks the mobile menu (including keyboard focus), homepage and expanded search, header states, both enquiry forms and WhatsApp drafts, reduced motion, 404 status and robots. `form-delivery-qa.js` is a Playwright CLI snippet for the optional JSON endpoint (mocked responses only).
+`site-qa.mjs` sweeps all 12 pages at 1440/1024/768/390/320px (status, overflow, one H1, unique titles, descriptions, broken images, uncaught errors), runs Axe WCAG 2.1 AA at 1440 and 390px after animations settle, checks every internal link and fragment, and writes `output/qa/site-qa.json` plus screenshots. `interaction-qa.mjs` checks the mobile menu (including keyboard focus), homepage and expanded search, header states, both enquiry forms and WhatsApp drafts, reduced motion, 404 status and robots. `interaction-qa.mjs` stubs `window.open`, so QA never contacts WhatsApp.
 
-No deployment, Git commit, push, form-provider activation or enquiry transmission was performed.
+No deployment or enquiry transmission was performed by QA.

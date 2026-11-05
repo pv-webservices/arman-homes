@@ -67,12 +67,11 @@ SEO is 66 only because of `is-crawlable`: the preview build is deliberately `noi
 
 ## Not re-run in this pass
 
-- `scripts/form-delivery-qa.js` mocks the optional HTTPS JSON enquiry endpoint (success and 503 responses). It is a Playwright CLI snippet that still points at the old port 4322. It was not re-run after the redesign.
 - The `/properties/[slug]/` template, property cards and gallery lightbox are still unpublished and untested with real records. No fictional listings are exposed.
 
 ## Enquiry delivery
 
-No real endpoint is configured, and no email or WhatsApp message was sent. By default the form prepares a WhatsApp draft, and the visitor reviews and sends it in WhatsApp. If a provider is chosen, server-side validation, rate limiting, spam protection, CORS, privacy handling and a live receipt test are launch work.
+Enquiries are WhatsApp-only; the email/endpoint delivery path was removed on 5 November 2026. The form opens WhatsApp with the message prefilled and the visitor sends it. No WhatsApp message was sent during QA.
 
 ## Origin and indexing
 

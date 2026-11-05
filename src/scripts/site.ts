@@ -1,4 +1,5 @@
 import { filterProperties } from '../data/properties.mjs';
+import { buildEnquiryMessage, whatsappUrl } from './whatsapp.mjs';
 
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -109,7 +110,7 @@ document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach(form =
     draft.hidden = true;
     status.textContent = '';
   }));
-  form.addEventListener('submit', async event => {
+  form.addEventListener('submit', event => {
     event.preventDefault();
     draft.hidden = true;
     const validity = fields.map(validate);
@@ -118,34 +119,20 @@ document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach(form =
       fields[validity.indexOf(false)].focus();
       return;
     }
-    const data = new FormData(form);
-    if (data.get('website')) { status.textContent = 'Unable to prepare this enquiry. Please call us instead.'; return; }
-    const payload = Object.fromEntries(data.entries());
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) {
-      const lines = ['Hello Arman Homes, I would like to discuss a property enquiry.', ...Object.entries(payload).filter(([key]) => !['website', 'consent'].includes(key)).map(([key, value]) => `${key.replaceAll('_', ' ')}: ${value}`)];
-      draft.href = `https://wa.me/919354210824?text=${encodeURIComponent(lines.join('\n'))}`;
-      draft.hidden = false;
-      status.textContent = 'Your draft is ready. Open WhatsApp to review and send it. Nothing has been sent yet.';
-      draft.focus();
-      return;
-    }
-    const original = button.innerHTML;
-    button.disabled = true;
-    button.textContent = 'Sending…';
-    form.setAttribute('aria-busy', 'true');
-    status.textContent = 'Sending your enquiry…';
-    try {
-      const url = new URL(endpoint);
-      if (url.protocol !== 'https:') throw new Error('Invalid endpoint');
-      const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: AbortSignal.timeout(15000) });
-      const result = await response.json();
-      if (!response.ok || result.success !== true) throw new Error('Delivery failed');
-      status.textContent = 'Your enquiry was accepted. Thank you for contacting Arman Homes.';
-      form.reset();
-    } catch {
-      status.textContent = 'Your enquiry could not be confirmed. Your details are still here. Please try again, call us or contact us on WhatsApp.';
-    } finally { button.disabled = false; button.innerHTML = original; form.removeAttribute('aria-busy'); }
+    if ((form.elements.namedItem('website') as HTMLInputElement | null)?.value) { status.textContent = 'Unable to prepare this enquiry. Please call us instead.'; return; }
+    const labelFor = (field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) =>
+      field.dataset.label ?? form.querySelector(`label[for="${field.id}"]`)?.textContent?.replace(/\s*\*\s*$/, '').trim() ?? field.name;
+    const answers = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input[name], select[name], textarea[name]')]
+      .filter(field => !['website', 'consent'].includes(field.name))
+      .map((field): [string, string] => [labelFor(field), field.value]);
+    draft.href = whatsappUrl(form.dataset.whatsapp!, buildEnquiryMessage(form.dataset.intro!, answers));
+    draft.hidden = false;
+    const opened = window.open(draft.href, '_blank');
+    if (opened) opened.opener = null;
+    status.textContent = opened
+      ? 'WhatsApp has opened with your enquiry. Press send in WhatsApp to reach Arman Homes. Nothing has been sent yet.'
+      : 'Your enquiry is ready. Use the link below to open WhatsApp and press send. Nothing has been sent yet.';
+    if (!opened) draft.focus();
   });
 });
 
