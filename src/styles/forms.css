@@ -46,7 +46,7 @@
 @media (hover: hover) { .property-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); } }
 @media (max-width: 1100px) { .property-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
-  .property-rail { overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding: 0 20px 8px; scrollbar-width: none; }
+  .property-rail { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 20px; margin-inline: -20px; padding: 0 20px 8px; scrollbar-width: none; }
   .property-rail::-webkit-scrollbar { display: none; }
   .property-rail .property-grid { display: flex; width: max-content; gap: 14px; }
   .property-rail .property-card { flex: 0 0 min(80vw, 320px); scroll-snap-align: start; }

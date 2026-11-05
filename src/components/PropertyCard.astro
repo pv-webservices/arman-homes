@@ -14,7 +14,7 @@ const small = cover.src.replace(/\.webp$/, '-small.webp');
     <h3><a href={`/properties/${p.slug}/`}>{p.title}</a></h3>
     <p class="property-location"><Icon name="pin" size={14} />{p.location}, Pune</p>
     <ul class="property-specs">
-      {p.bedrooms && <li><Icon name="bed" size={15} />{p.bedrooms} Beds</li>}
+      {p.bedrooms && <li><Icon name="bed" size={15} />{p.bedrooms} {p.bedrooms === 1 ? 'Bed' : 'Beds'}</li>}
       {p.bathrooms && <li><Icon name="bath" size={15} />{p.bathrooms} Baths</li>}
       {p.area && <li><Icon name="area" size={15} />{p.area.toLocaleString('en-IN')} Sq.Ft.</li>}
     </ul>
