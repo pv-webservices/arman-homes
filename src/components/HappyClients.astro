@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import { happyClients, happyClientImage } from '../data/happy-clients';
+---
+<section class="section happy-clients tone-white" aria-labelledby="happy-title">
+  <div class="wrap">
+    <div class="section-head split" data-reveal>
+      <div>
+        <p class="eyebrow">Happy Clients</p>
+        <h2 id="happy-title">Moments That Make Us Proud</h2>
+        <p class="lead">Every handover is the start of a new chapter. A few of the clients who found their next home or space with Arman Homes.</p>
+      </div>
+      <a class="link-arrow" href="/contact/">Start Your Journey <Icon name="arrow" size={17} /></a>
+    </div>
+    <div class="happy-rail">
+      <ul class="happy-grid">
+        {happyClients.map((c, i) => (
+          <li class="happy-card" data-reveal style={`--delay:${(i % 3) * 80}ms`}>
+            <figure>
+              <div class="media zoom">
+                <img src={happyClientImage(c.n, true)} srcset={`${happyClientImage(c.n, true)} 480w, ${happyClientImage(c.n)} 720w`} sizes="(max-width: 640px) 78vw, (max-width: 1024px) 45vw, 30vw" alt={c.alt} width="480" height="600" loading="lazy" decoding="async" />
+              </div>
+              <figcaption><span>{c.label}</span>{c.caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
