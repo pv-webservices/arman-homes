@@ -10,7 +10,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import FilmSection from '../components/FilmSection.astro';
 import Township from '../components/Township.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import { business, services } from '../data/site';
+import { services, whatsappUrl } from '../data/site';
 import { projects, projectBySlug } from '../data/projects';
 const slides = projects.map((p) => ({ project: p, image: p.slug === 'duet' ? 'duet-stargazing' : p.slug === 'qrious' ? 'qrious-pool' : p.hero }));
 const spotlight = projectBySlug('canvas-d-tower')!;
@@ -20,7 +20,7 @@ const SLIDE_MS = 7000;
   <!-- Hero: project slideshow -->
   <section class="home-hero on-dark" data-hero style={`--slide-ms:${SLIDE_MS}ms`} data-slide-ms={SLIDE_MS}>
     <div class="hero-slides" aria-hidden="true">
-      {slides.map((s, i) => <div class:list={['hero-slide', { 'is-active': i === 0 }]} data-slide><Picture name={s.image} priority={i === 0} decorative sizes="100vw" /></div>)}
+      {slides.map((s, i) => <div class:list={['hero-slide', { 'is-active': i === 0 }]} data-slide><Picture name={s.image} priority={i === 0} deferred={i > 0} decorative sizes="100vw" /></div>)}
     </div>
     <div class="wrap home-hero-inner">
       <div class="home-hero-copy">
@@ -32,7 +32,7 @@ const SLIDE_MS = 7000;
           <button class="play-link" type="button" data-film-open><span class="play-ring"><Icon name="play" size={20} /></span>Watch the Film</button>
         </div>
       </div>
-      <div class="hero-chips hero-in" style="--delay:360ms" aria-live="polite">
+      <div class="hero-chips hero-in" style="--delay:360ms">
         {slides.map(({ project: p }, i) => (
           <a class:list={['hero-chip', { 'is-active': i === 0 }]} href={`/projects/${p.slug}/`} data-chip tabindex={i === 0 ? 0 : -1} aria-hidden={i === 0 ? undefined : 'true'}>
             <span class="chip-status">{p.status}</span>
@@ -49,6 +49,8 @@ const SLIDE_MS = 7000;
         <ol aria-label="Featured projects">
           {slides.map(({ project: p }, i) => <li><button type="button" data-slide-to={i} aria-current={i === 0 ? 'true' : 'false'}><span>0{i + 1}</span>{p.name}<i></i></button></li>)}
         </ol>
+        <!-- WCAG 2.2.2: a visible way to stop the auto-advancing slideshow. Shown by site.ts when motion is allowed. -->
+        <button class="hero-toggle" type="button" data-hero-toggle aria-label="Pause slideshow" hidden><Icon name="pause" size={16} /><Icon name="play" size={16} /></button>
       </div>
     </div>
   </section>
@@ -93,7 +95,7 @@ const SLIDE_MS = 7000;
         <p class="fine-print">{spotlight.pricingNote} MahaRERA No. {spotlight.rera}</p>
         <div class="actions">
           <a class="btn" href={`/projects/${spotlight.slug}/`}>Explore Canvas – D Tower <Icon name="arrow" size={17} /></a>
-          <a class="btn btn-ghost-light" href={`${business.whatsapp}?text=${encodeURIComponent('Hello Arman Homes, please share the latest price sheet for Canvas – D Tower at Life Republic.')}`} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Get Price Sheet</a>
+          <a class="btn btn-ghost-light" href={whatsappUrl('Hello Arman Homes, please share the latest price sheet for Canvas – D Tower at Life Republic.')} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Get Price Sheet</a>
         </div>
       </div>
     </div>

@@ -6,7 +6,9 @@ const { title = 'A Township That Feels Like Home', text = '400+ acres of greener
 ---
 <section class="film on-dark" aria-labelledby="film-title">
   <div class="film-video" aria-hidden="true">
-    <video data-bg-video muted loop playsinline preload="none" poster="/images/projects/film-poster.webp">
+    <!-- A lazy <img> instead of the video `poster` attribute: posters load eagerly and competed with the hero image. -->
+    <img src="/images/projects/film-poster.webp" alt="" width="848" height="364" loading="lazy" decoding="async" />
+    <video data-bg-video muted loop playsinline preload="none">
       <source src="/video/life-republic-loop.mp4" type="video/mp4" />
     </video>
   </div>
@@ -19,7 +21,7 @@ const { title = 'A Township That Feels Like Home', text = '400+ acres of greener
 </section>
 <dialog class="video-modal" data-film-modal aria-label="Life Republic film">
   <button class="modal-close" type="button" data-film-close aria-label="Close film"><Icon name="close" size={20} /></button>
-  <video controls playsinline preload="none" poster="/images/projects/film-poster.webp">
+  <video controls playsinline preload="none" data-poster="/images/projects/film-poster.webp">
     <source src="/video/life-republic-film.mp4" type="video/mp4" />
   </video>
 </dialog>

@@ -4,8 +4,13 @@ dist/
 .env
 .env.*
 !.env.example
+!.env.production
 output/
 .playwright-cli/
+.playwright-mcp/
 
 # Raw client source material (PDF brochures, master video). Optimized derivatives live in public/.
-source-assets/
+source-files/client/
+source-files/illustrations/
+__pycache__/
+*.pyc

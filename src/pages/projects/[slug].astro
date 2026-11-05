@@ -7,12 +7,12 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import Township from '../../components/Township.astro';
 import ContactCTA from '../../components/ContactCTA.astro';
 import { image } from '../../data/images';
-import { business } from '../../data/site';
+import { business, whatsappUrl } from '../../data/site';
 import { projects, type Project } from '../../data/projects';
 export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
 interface Props { project: Project }
 const { project: p } = Astro.props;
-const wa = (text: string) => `${business.whatsapp}?text=${encodeURIComponent(text)}`;
+const wa = (text: string) => whatsappUrl(text);
 const others = projects.filter((x) => x.slug !== p.slug).slice(0, 2);
 const gallery = p.gallery.map((name) => ({ name, ...image(name) }));
 const amenityIcons = ['layers', 'heart', 'home', 'users', 'shield', 'chart'];

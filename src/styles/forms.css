@@ -8,6 +8,8 @@
 .search-field { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 10px 16px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--white); transition: border-color 0.3s, box-shadow 0.3s; cursor: pointer; }
 .search-field:hover { border-color: #d3cab8; }
 .search-field:focus-within { border-color: var(--bronze); box-shadow: 0 0 0 3px rgb(185 138 58 / 0.14); }
+/* Keyboard focus gets the site-wide 2px bronze ring (the select itself has no outline). */
+.search-field:has(:focus-visible) { outline: 2px solid var(--bronze); outline-offset: 2px; }
 .search-field > svg { color: var(--navy); }
 .search-control { display: grid; min-width: 0; width: 100%; }
 .field-label { font-size: 0.72rem; font-weight: 700; color: var(--navy); }
@@ -142,3 +144,5 @@
 .detail-page { padding-top: calc(var(--header-h) + 48px); }
 .detail-page .breadcrumb { color: var(--muted); }
 .detail-page .breadcrumb [aria-current] { color: var(--navy); }
+
+button.draft-link { border: 0; background: transparent; padding: 8px 0; display: flex; cursor: pointer; font: inherit; font-weight: 700; }

@@ -12,10 +12,17 @@ npm run dev
 npm run check
 npm test
 npm run build
+npm run audit
+npm run test:audit
 npm run preview
+# With preview running at 4330:
+npm run test:forms
+node scripts/interaction-qa.mjs http://127.0.0.1:4330 --production
+node scripts/site-qa.mjs http://127.0.0.1:4330
+npm run test:perf -- http://127.0.0.1:4330
 ```
 
-`dist/` is the static upload directory. Configure your host to serve `404.html` with HTTP status 404 for missing paths, and resolve directory routes to their `index.html`. Do not rewrite every path to the homepage.
+`dist/` is the static upload directory. For the approved DirectAdmin hosting at armanhomes.in, run `npm run package:hosting` on Windows to build and create `output/hosting/arman-homes-public-html.zip`. Follow [HOSTING-UPLOAD.md](docs/HOSTING-UPLOAD.md) for the exact upload layout, replacement steps, verification and rollback. The included `.htaccess` serves directory `index.html` files, redirects to the HTTPS domain, and serves `404.html` for missing paths.
 
 ## Routes
 
@@ -42,7 +49,7 @@ Routes: `/projects/` (comparison, film, township) and `/projects/[slug]/`. Each 
 
 ### Source material and derived assets
 
-Raw client files are kept in `source-assets/` (git-ignored, **not** published): 12 brochure PDFs and the 6.8-minute master video. Derived web assets:
+Raw client files are kept in `source-files/client/` (git-ignored, **not** published): 12 brochure PDFs and the 6.8-minute master video. Derived web assets:
 
 | Step | Command | Output |
 | --- | --- | --- |
@@ -54,7 +61,7 @@ Raw client files are kept in `source-assets/` (git-ignored, **not** published): 
 Video: the letterbox is cropped (848×364). `life-republic-loop.mp4` (24 s, silent, 3.2 MB) plays only while the film section is on screen and never under reduced motion. `life-republic-film.mp4` (full film, 30 MB) loads only when a visitor presses play.
 
 ```sh
-ffmpeg -i "source-assets/video/Life Republic Video.mp4" -vf "crop=848:364:0:58,fps=25" -c:v libx264 -preset slower -crf 31 -pix_fmt yuv420p -c:a aac -b:a 80k -movflags +faststart public/video/life-republic-film.mp4
+ffmpeg -i "source-files/client/video/Life Republic Video.mp4" -vf "crop=848:364:0:58,fps=25" -c:v libx264 -preset slower -crf 31 -pix_fmt yuv420p -c:a aac -b:a 80k -movflags +faststart public/video/life-republic-film.mp4
 ```
 
 The Canvas (25 MB) and Echoes (15 MB) brochures are mostly vector floor plans and cannot shrink further without losing legibility. Their download buttons show the file size.
@@ -65,7 +72,7 @@ Edit `src/data/site.ts` for shared contact details and service descriptions. Bus
 
 ## Property records
 
-`src/data/properties.mjs` intentionally contains an empty array. The screenshots' sample properties are illustrative. Add only approved real records. A record has these fields:
+`src/data/properties.mjs` currently contains four design-supplied records with illustrative photography. Their prices, availability and real photos require owner confirmation before promotion/indexing. The audit preserves those visible records as requested. Add only approved real records. A record has these fields:
 
 ```ts
 type Property = {
@@ -86,42 +93,45 @@ type Property = {
 };
 ```
 
-Rebuild after adding records; static detail routes are generated automatically. Adjust location/type search options for new inventory. Test fixtures live only in the test suite and are never published. Update the empty-inventory assertion when approved records are added. Pagination can be introduced when the actual inventory requires it.
+Rebuild after adding records; static detail routes are generated automatically. Adjust location/type search options for new inventory. Test fixtures live only in the test suite and are never published. The tests check listing completeness and unique slugs. Pagination can be introduced when the actual inventory requires it.
 
 Search URL parameters: `location`, `type`, `budget`, `transaction`, `category`, `bedrooms`. `bedrooms` is a minimum; `budget` is an inclusive maximum. The homepage starts with sale; the listing page supports sale and rent. All records are generated as HTML for crawlable links; URL filtering is applied by lightweight browser JavaScript. Empty inventory gives the same honest availability message with or without JavaScript.
 
 ## Enquiries
 
-Without `PUBLIC_FORM_ENDPOINT`, both forms prepare a WhatsApp draft in the visitor's browser. The user must explicitly open WhatsApp, review and send it. No enquiry is sent by this build or by local QA. Drafts are invalidated when fields change. Phone, required-field and email validation, accessible feedback and a honeypot are included. Buttons remain disabled if JavaScript is unavailable; direct phone/email contact remains available.
+All six enquiry forms prepare WhatsApp messages for **+91 9354210824**. There is no email form endpoint, delivery service or server backend. The public email **armanhomess@gmail.com** remains in the footer, contact page and privacy policy for direct contact only. No visitor email is collected.
 
-To enable direct delivery, configure an **HTTPS JSON POST endpoint** in `.env`, rebuild and test with the actual provider:
+Name, international phone (10–15 digits), enquiry/property type, message and privacy acknowledgement are validated. Seller forms also require property location and details. Project forms include the current project. A valid submit opens WhatsApp synchronously; the visitor reviews and sends manually. Opening WhatsApp never proves delivery. Popup/offline/clipboard restrictions retain the inputs and offer a direct draft link, copyable text and phone call link. Without JavaScript the submit stays disabled and direct WhatsApp/phone links remain usable; Enter cannot transmit the form.
 
-```dotenv
-PUBLIC_FORM_ENDPOINT=https://your-approved-service.example/enquiry
-```
-
-The endpoint must accept JSON and CORS from the production origin, return a JSON object `{ "success": true }` only after accepting the enquiry, and use appropriate non-2xx failure responses. Timeout is 15 seconds. The client preserves entered fields on failure. Client validation and the honeypot do not replace endpoint validation, origin checks, rate limits and provider-side spam controls.
-
-Contact payload fields: `full_name`, `phone`, `email`, `inquiry_type`, `message`, `consent`, `website` (honeypot). Seller payload: `full_name`, `phone`, `property_location`, `property_type`, `property_details`, `message`, `consent`, `website`. No credentials belong in browser-exposed environment variables.
-
-Review the privacy copy, service descriptions and real handling practices with the owner when configuring delivery. Test real receipt separately; a local draft or mocked request is not delivery evidence.
+`npm run test:forms` mocks every external handoff. It sends no messages or calls. A real WhatsApp send or phone call requires separate authorization.
 
 ## Domain and indexing
 
-No approved domain was supplied. The default build has `noindex,nofollow`, `robots.txt` disallowing crawling, and an empty sitemap. Set an approved origin and explicitly enable indexing for a launch build:
+The approved production domain is `https://armanhomes.in`. The tracked `.env.production` contains public build settings only and enables indexing for `npm run build` and `npm run package:hosting`:
 
 ```dotenv
-PUBLIC_SITE_URL=https://your-approved-domain.example
+PUBLIC_SITE_URL=https://armanhomes.in
 PUBLIC_INDEXABLE=true
 ```
 
-The build then emits canonical URLs, absolute Open Graph image URLs, a populated sitemap and indexable robots directives. No search-engine indexing is guaranteed. Verify the deployed host's redirects, HTTPS, origin, HTTP 404 behavior, sitemap, social previews and enquiry delivery independently.
+The production build emits canonical URLs, absolute Open Graph image URLs, a populated sitemap and indexable robots directives. Development remains non-indexable by default. Shell environment variables take precedence over the file, so the packaging command checks the actual built domain and indexing settings before creating the ZIP. No search-engine indexing is guaranteed. Verify redirects, HTTPS, HTTP 404 behavior, sitemap, social previews and enquiry handoff after upload. Do not add secrets to `.env.production`.
 
 ## Design, assets and motion
 
-Design system, motion and content rules: `DESIGN.md`. Styles are split into `src/styles/base.css` (tokens, type, buttons, motion), `chrome.css` (header, menu, page hero, footer), `sections.css` and `forms.css`.
+Design system, motion and content rules: `docs/DESIGN.md`. Styles are split into `src/styles/base.css` (tokens, type, buttons, motion), `chrome.css` (header, menu, page hero, footer), `sections.css` and `forms.css`.
 
-Images live in `public/images/` as WebP with a full and `-small` derivative. `src/components/Picture.astro` emits `srcset`/`sizes`, intrinsic dimensions and lazy loading (hero images load eagerly with high priority). Alt text comes from `src/data/images.ts`. Sources and licences: `ASSET-SOURCES.json`. No image is presented as a particular Pune property or office.
+Images live in `public/images/` as WebP with a full, a ~1200px `-medium` (for images wider than 1400px) and a `-small` derivative. `src/components/Picture.astro` emits a `srcset` with every available width, `sizes`, intrinsic dimensions and lazy loading (hero images load eagerly with high priority). Property cards and galleries look up the real widths through `imageBySrc()` in `src/data/images.ts`, which also holds the alt text. Sources and licences: `docs/ASSET-SOURCES.json`. No image is presented as a particular Pune property or office.
+
+After adding or replacing a full-size image, run `npm run images:responsive`. It writes the `-medium` files and `src/data/responsive-images.json` (downscaled from the committed full-size WebP; it never enlarges).
+
+### Performance conventions (Stage 2)
+
+- Homepage slideshow: only the first slide image loads with the page. The other slides use `<Picture deferred>`, which keeps the real sources in `data-src`/`data-srcset`; `src/scripts/site.ts` swaps them in after the `load` event. Do not put `loading="lazy"` on images hidden inside the viewport; it does not defer them.
+- Homepage sections after the hero use `content-visibility: auto` (`src/styles/sections.css`), which cuts initial layout work by about 40% in a throttled trace. Do not add it to the footer: off-screen contained content is not hit-testable, so Lighthouse/axe read the light footer links against the page background and report false contrast failures. Keep `position: fixed` elements outside contained elements.
+- The film section shows its poster through a lazy `<img>`; the video `poster` attribute loads eagerly and competed with the hero image. The modal film's poster is set when the modal opens.
+- The slideshow has a pause/play button (WCAG 2.2.2). It is hidden without JavaScript and under reduced motion, where nothing auto-advances.
+- The background film loop is skipped when the browser's Data Saver is on and under reduced motion; the full film loads only when a visitor presses play.
+- Caching (`public/.htaccess`): `/_astro/` files are content-hashed and cached for a year (`immutable`); images, video, brochures and fonts outside `/_astro/` for 7 days; favicons and the manifest for 1 day; HTML, sitemaps and robots.txt revalidate on every visit (`no-cache`). Text is served with Brotli where the host has it, otherwise gzip; already-compressed media is not re-compressed. If you replace an image under the same filename, visitors may see the old one for up to 7 days. Use a new filename for urgent swaps.
 
 ## AI image generation (build-time, server-side)
 
@@ -140,20 +150,45 @@ npm run images -- --only=hero --force                      # regenerate one asse
 npm run images -- --only=floorplan --premium=floorplan --force   # escalate one asset to Sunburst
 ```
 
-Originals are kept in `output/imagegen/` (git-ignored); derivatives and `src/data/generated-images.json` are committed. No videos exist in the project and none are generated.
+Originals are kept in `source-files/illustrations/` (git-ignored); derivatives and `src/data/generated-images.json` are committed. The supplied Life Republic film and short loop are optimized into public/video; no video generation runs during the build.
 
 ## QA
 
-`QA.md` records the latest results. Build, start the preview, then run the scripts from PowerShell (Git Bash rewrites `/` arguments):
+`docs/QA.md` records the latest results. Build, start the preview, then run the scripts from PowerShell (Git Bash rewrites `/` arguments):
 
 ```sh
 npm run build
 npm run preview -- --port 4330
 node scripts/site-qa.mjs http://127.0.0.1:4330
-node scripts/interaction-qa.mjs http://127.0.0.1:4330
+node scripts/interaction-qa.mjs http://127.0.0.1:4330 --production
 node scripts/shots.mjs http://127.0.0.1:4330 1440 /,/contact/
+npm run test:perf -- http://127.0.0.1:4330             # add --headers when testing against Apache with .htaccess
 ```
 
-`site-qa.mjs` sweeps all 12 pages at 1440/1024/768/390/320px (status, overflow, one H1, unique titles, descriptions, broken images, uncaught errors), runs Axe WCAG 2.1 AA at 1440 and 390px after animations settle, checks every internal link and fragment, and writes `output/qa/site-qa.json` plus screenshots. `interaction-qa.mjs` checks the mobile menu (including keyboard focus), homepage and expanded search, header states, both enquiry forms and WhatsApp drafts, reduced motion, 404 status and robots. `form-delivery-qa.js` is a Playwright CLI snippet for the optional JSON endpoint (mocked responses only).
+`perf-qa.mjs` (Stage 2) checks that inactive hero slides are not fetched before `load`, that the pause/play control works by keyboard and stays hidden under reduced motion, that every `[data-reveal]` element still reveals under `content-visibility`, and that every `srcset` width descriptor matches its file. It also checks keyboard access (skip link, a visible focus indicator on every homepage stop, Shift+Tab, no focus trap, dialogs and gallery closing on Escape with focus returned). With `--headers` it asserts the production cache, compression and security headers and real 404s. `scripts/apache-stage1-qa.mjs` tests redirects, 404s and resources against the local Apache/TLS container described in `docs/AUDIT-REPORT.md`.
 
-No deployment, Git commit, push, form-provider activation or enquiry transmission was performed.
+`site-qa.mjs` sweeps the main, project and property pages at 1440/1024/768/375/320px (status, overflow, one H1, unique titles, descriptions, broken images, uncaught errors), runs Axe WCAG 2.1 AA at 1440 and 375px after animations settle, checks every internal link and fragment, and writes `output/qa/site-qa.json` plus screenshots. `interaction-qa.mjs` checks the mobile menu (including keyboard focus), homepage and expanded search, header states, both enquiry forms and WhatsApp drafts, reduced motion, 404 status and robots. Use `--production` against the production build to verify the approved canonical, indexable robots and noindex 404; omit it for a non-indexable development build. `npm run test:forms` exercises all enquiry forms and error/fallback paths with mocked WhatsApp handoffs and no external delivery.
+
+The earlier website version was manually uploaded through DirectAdmin on 29 October 2026. There is a Git remote but no verified Git-to-host deployment pipeline. This audit does not commit, push, deploy or send real enquiries.
+
+
+## Stage 1 and deployment status — 5 November 2026
+
+Framework installed: Astro 7.4.0; npm with package-lock.json. Static routes: 25 content pages (including the five Life Republic rentals merged in GitHub PR #1) and the branded 404 document. Stage 2 results: [STAGE-2-REPORT.md](docs/STAGE-2-REPORT.md). No blog, founder profile, service API or application backend is present. See [AUDIT-REPORT.md](docs/AUDIT-REPORT.md) for verified results and remaining release constraints.
+
+The verified public server is Apache at 184.164.144.133 with DirectAdmin upload history. Authoritative DNS is ns1.supercloudapps.com / ns2.supercloudapps.com; GoDaddy is the supplied registrar. Git remote is https://github.com/pv-webservices/arman-homes.git, branch codex/hosting-upload. No Git-based deployment workflow was found. Publishing is a separate authorized action; no commit, push or deployment occurs in Stage 1.
+
+## Folder structure and asset conventions
+
+- `src/pages/`: file routes; project/property details come from their data files.
+- `src/components/`, `src/scripts/`, `src/styles/`, `src/data/`: existing presentation, interactions and approved business content.
+- `public/images/brand/`, `editorial/`, `illustrations/`, `projects/`: logo, licensed editorial imagery, illustrative imagery and brochure derivatives.
+- `public/brochures/`, `public/video/`, `public/_astro/`: downloadable derivatives, video and Apache cache rules. Self-hosted fonts are compiled from Fontsource into `dist/_astro/`.
+- `public/favicon*`, `apple-touch-icon.png`, `site.webmanifest`: logo-derived icon set. Run `npm run icons` only when approved brand assets change.
+- `source-files/brand/`, `client/`, `illustrations/`, `original-images/`: original source assets and archived unused photos; never deployed.
+- `docs/`: release, audit, design and Search Console documentation.
+- `scripts/`, `tests/`: asset preparation and verification. `output/` is ignored local evidence; `dist/` is generated deployment output.
+
+Use descriptive lowercase hyphenated names. Update data registries, Astro/CSS references and generator scripts together for asset moves. Keep original masters outside `public/`. The postbuild pruner excludes unused image derivatives (including unused `-medium` files) from `dist/` while retaining the source files. Hash inventory: `output/stage1/assets.json`.
+
+The source has no standalone lint command; `npm run check` supplies Astro/TypeScript diagnostics.

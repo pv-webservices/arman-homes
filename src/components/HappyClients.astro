@@ -12,7 +12,8 @@ import { happyClients, happyClientImage } from '../data/happy-clients';
       </div>
       <a class="link-arrow" href="/contact/">Start Your Journey <Icon name="arrow" size={17} /></a>
     </div>
-    <div class="happy-rail">
+    <!-- Phones scroll this rail sideways; tabindex lets keyboard users focus it and scroll with arrow keys. -->
+    <div class="happy-rail" tabindex="0" role="region" aria-label="Happy client photographs">
       <ul class="happy-grid">
         {happyClients.map((c, i) => (
           <li class="happy-card" data-reveal style={`--delay:${(i % 3) * 80}ms`}>

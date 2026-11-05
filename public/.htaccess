@@ -1,0 +1,55 @@
+# Arman Homes static website. Replace the previous WordPress .htaccess.
+DirectoryIndex index.html
+Options -Indexes -MultiViews
+ErrorDocument 404 /404.html
+AddType application/manifest+json .webmanifest
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Keep certificate renewal requests accessible over HTTP.
+  RewriteRule ^\.well-known/acme-challenge/ - [L]
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html(?:[?\s]) [NC]
+  RewriteRule ^(.*/)?index\.html$ https://armanhomes.in/$1 [R=301,L]
+  # Only real content directories receive a trailing slash; missing routes remain 404.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.+)$ https://armanhomes.in/$1/ [R=301,L]
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^armanhomes\.in$ [NC]
+  RewriteRule ^ https://armanhomes.in%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Compression. Text responses: Brotli where the host provides it, otherwise gzip.
+# Images, video, PDFs and WOFF2 are already compressed; skip them to save server CPU.
+<IfModule mod_setenvif.c>
+  SetEnvIfNoCase Request_URI "\.(?:webp|avif|png|jpe?g|gif|mp4|webm|pdf|woff2?|zip)$" no-gzip no-brotli dont-vary
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/manifest+json image/svg+xml image/x-icon image/vnd.microsoft.icon
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/manifest+json image/svg+xml image/x-icon image/vnd.microsoft.icon
+</IfModule>
+
+# Browser caching.
+# - /_astro/ files carry a content hash in their name, so a new build always gets a new URL: cache for a year.
+# - Images, video, brochures and icons keep their names between builds: cache for a week (favicons and
+#   the manifest for a day), then revalidate with ETag/Last-Modified so replaced files still reach visitors.
+# - HTML, sitemap and robots.txt: always revalidate so content updates appear immediately.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(?:webp|avif|png|jpe?g|gif|svg|mp4|webm|pdf|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "^(?:favicon.*|apple-touch-icon\.png|site\.webmanifest)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>

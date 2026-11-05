@@ -1,0 +1,202 @@
+{
+  "/images/projects/canvas-deck.webp": {
+    "src": "/images/projects/canvas-deck-medium.webp",
+    "width": 1200,
+    "height": 676
+  },
+  "/images/projects/canvas-lawn.webp": {
+    "src": "/images/projects/canvas-lawn-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/canvas-living.webp": {
+    "src": "/images/projects/canvas-living-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/canvas-pool.webp": {
+    "src": "/images/projects/canvas-pool-medium.webp",
+    "width": 1200,
+    "height": 601
+  },
+  "/images/projects/canvas-towers.webp": {
+    "src": "/images/projects/canvas-towers-medium.webp",
+    "width": 1200,
+    "height": 880
+  },
+  "/images/projects/duet-pavilion.webp": {
+    "src": "/images/projects/duet-pavilion-medium.webp",
+    "width": 1200,
+    "height": 774
+  },
+  "/images/projects/duet-skating.webp": {
+    "src": "/images/projects/duet-skating-medium.webp",
+    "width": 1200,
+    "height": 774
+  },
+  "/images/projects/duet-stargazing.webp": {
+    "src": "/images/projects/duet-stargazing-medium.webp",
+    "width": 1200,
+    "height": 774
+  },
+  "/images/projects/echoes-entrance.webp": {
+    "src": "/images/projects/echoes-entrance-medium.webp",
+    "width": 1200,
+    "height": 602
+  },
+  "/images/projects/echoes-kids.webp": {
+    "src": "/images/projects/echoes-kids-medium.webp",
+    "width": 1200,
+    "height": 602
+  },
+  "/images/projects/echoes-living.webp": {
+    "src": "/images/projects/echoes-living-medium.webp",
+    "width": 1200,
+    "height": 602
+  },
+  "/images/projects/echoes-pool.webp": {
+    "src": "/images/projects/echoes-pool-medium.webp",
+    "width": 1200,
+    "height": 602
+  },
+  "/images/projects/echoes-towers.webp": {
+    "src": "/images/projects/echoes-towers-medium.webp",
+    "width": 1200,
+    "height": 849
+  },
+  "/images/projects/location-map.webp": {
+    "src": "/images/projects/location-map-medium.webp",
+    "width": 1200,
+    "height": 1089
+  },
+  "/images/projects/qrious-cabana.webp": {
+    "src": "/images/projects/qrious-cabana-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/qrious-club.webp": {
+    "src": "/images/projects/qrious-club-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/qrious-kids.webp": {
+    "src": "/images/projects/qrious-kids-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/qrious-living.webp": {
+    "src": "/images/projects/qrious-living-medium.webp",
+    "width": 1200,
+    "height": 675
+  },
+  "/images/projects/qrious-pool.webp": {
+    "src": "/images/projects/qrious-pool-medium.webp",
+    "width": 1200,
+    "height": 600
+  },
+  "/images/projects/qrious-towers.webp": {
+    "src": "/images/projects/qrious-towers-medium.webp",
+    "width": 1200,
+    "height": 837
+  },
+  "/images/projects/township-aerial.webp": {
+    "src": "/images/projects/township-aerial-medium.webp",
+    "width": 1200,
+    "height": 678
+  },
+  "/images/projects/township-master-layout.webp": {
+    "src": "/images/projects/township-master-layout-medium.webp",
+    "width": 1200,
+    "height": 851
+  },
+  "/images/projects/township-roundabout.webp": {
+    "src": "/images/projects/township-roundabout-medium.webp",
+    "width": 1200,
+    "height": 674
+  },
+  "/images/projects/township-school.webp": {
+    "src": "/images/projects/township-school-medium.webp",
+    "width": 1200,
+    "height": 674
+  },
+  "/images/projects/township-tulips.webp": {
+    "src": "/images/projects/township-tulips-medium.webp",
+    "width": 1200,
+    "height": 801
+  },
+  "/images/illustrations/commercial-building.webp": {
+    "src": "/images/illustrations/commercial-building-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/consultation.webp": {
+    "src": "/images/illustrations/consultation-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/hero.webp": {
+    "src": "/images/illustrations/hero-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/listing-2bhk-wakad.webp": {
+    "src": "/images/illustrations/listing-2bhk-wakad-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/listing-3bhk-hinjewadi.webp": {
+    "src": "/images/illustrations/listing-3bhk-hinjewadi-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/listing-office-hinjewadi.webp": {
+    "src": "/images/illustrations/listing-office-hinjewadi-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/listing-villa-baner.webp": {
+    "src": "/images/illustrations/listing-villa-baner-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/pune-horizon.webp": {
+    "src": "/images/illustrations/pune-horizon-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/illustrations/residential-community.webp": {
+    "src": "/images/illustrations/residential-community-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/house.webp": {
+    "src": "/images/editorial/house-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/interior.webp": {
+    "src": "/images/editorial/interior-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/living.webp": {
+    "src": "/images/editorial/living-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/office.webp": {
+    "src": "/images/editorial/office-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/residential.webp": {
+    "src": "/images/editorial/residential-medium.webp",
+    "width": 1200,
+    "height": 800
+  },
+  "/images/editorial/skyline.webp": {
+    "src": "/images/editorial/skyline-medium.webp",
+    "width": 1200,
+    "height": 800
+  }
+}
