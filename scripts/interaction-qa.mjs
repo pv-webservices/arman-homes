@@ -1,13 +1,22 @@
 // Interaction QA against a running server: node scripts/interaction-qa.mjs <baseUrl>
 import { chromium } from 'playwright';
+import { mkdir, writeFile } from 'node:fs/promises';
+await mkdir('output/shots', { recursive: true });
 
 const base = process.argv[2] || 'http://127.0.0.1:4321';
+const production = process.argv.includes('--production');
 const browser = await chromium.launch({ channel: 'chrome' });
+async function testPage(options) {
+  const context = await browser.newContext(options);
+  await context.route('**/*', route => new URL(route.request().url()).origin === new URL(base).origin ? route.continue() : route.abort());
+  await context.addInitScript(() => { window.open = () => ({ opener: null, location: { replace() {} } }); });
+  return context.newPage();
+}
 const results = [];
 const check = (name, ok, detail = '') => results.push(`${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ` — ${detail}` : ''}`);
 
 // Mobile menu
-const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+const mobile = await testPage({ viewport: { width: 390, height: 844 } });
 await mobile.goto(base + '/', { waitUntil: 'networkidle' });
 await mobile.click('.menu-toggle');
 await mobile.waitForTimeout(600);
@@ -26,7 +35,7 @@ check('home search submits filters', url.pathname === '/properties/' && url.sear
 check('expanded search shows only matching listing', await mobile.evaluate(() => [...document.querySelectorAll('[data-property]')].filter((c) => !c.hidden).length === 1));
 
 // Header state and hero slideshow
-const desk = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const desk = await testPage({ viewport: { width: 1440, height: 900 } });
 await desk.goto(base + '/', { waitUntil: 'networkidle' });
 await desk.click('[data-slide-to="2"]');
 check('hero control switches slide', await desk.evaluate(() => document.querySelectorAll('[data-slide]')[2].classList.contains('is-active') && document.querySelectorAll('[data-chip]')[2].classList.contains('is-active')));
@@ -54,7 +63,6 @@ await desk.click('[data-inquiry-form] button[type=submit]');
 check('form blocks empty submit', (await desk.textContent('[data-form-status]')).includes('highlighted'));
 await desk.fill('#contact-full_name', 'Test Visitor');
 await desk.fill('#contact-phone', '+91 90000 00000');
-await desk.fill('#contact-email', 'visitor@example.test');
 await desk.selectOption('#contact-type', 'Buy Property');
 await desk.fill('#contact-message', 'Looking for a 2 BHK.');
 await desk.check('#contact-consent');
@@ -117,6 +125,10 @@ check('expanded filters persist', await desk.evaluate(() => document.querySelect
 await desk.click('.reset-filters');
 await desk.waitForLoadState('networkidle');
 check('clear filters resets URL', new URL(desk.url()).search === '');
+await desk.goBack();
+check('Back restores filtered property URL', new URL(desk.url()).searchParams.get('bedrooms') === '2');
+await desk.goForward();
+check('Forward restores cleared property search', new URL(desk.url()).search === '');
 
 // Both enquiry forms: invalid phone, WhatsApp draft, no false delivery claim, stale draft hidden
 for (const seller of [false, true]) {
@@ -129,7 +141,6 @@ for (const seller of [false, true]) {
     await desk.selectOption('#seller-type', 'Apartment');
     await desk.fill('#seller-details', 'Local QA fixture only');
   } else {
-    await desk.fill('#contact-email', 'qa@example.test');
     await desk.selectOption('#contact-type', 'Buy Property');
   }
   await desk.fill(`#${p}-message`, 'Local QA only. No enquiry is sent.');
@@ -140,13 +151,13 @@ for (const seller of [false, true]) {
   await desk.click(`#${p}-message >> xpath=ancestor::form//button[@type="submit"]`);
   const form = desk.locator('[data-inquiry-form]').filter({ has: desk.locator(`#${p}-message`) });
   const draftHref = await form.locator('[data-draft-link]').getAttribute('href');
-  check(`${p} draft encodes values`, !!draftHref && draftHref.includes('QA%20Example') && (await form.locator('[data-form-status]').textContent()).includes('Nothing has been sent'));
+  check(`${p} draft encodes values`, !!draftHref && draftHref.includes('QA%20Example') && (await form.locator('[data-form-status]').textContent()).includes('Delivery is not confirmed'));
   await desk.fill(`#${p}-message`, 'Changed message');
   check(`${p} stale draft hidden after edit`, await form.locator('[data-draft-link]').isHidden());
 }
 
-// Reduced motion, 404 status and preview robots
-const reduced = await browser.newPage({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+// Reduced motion, 404 status and indexing settings for the selected build
+const reduced = await testPage({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
 await reduced.goto(base + '/', { waitUntil: 'networkidle' });
 check('reduced motion shows content immediately', await reduced.evaluate(() => {
   const heroOpacity = getComputedStyle(document.querySelector('.hero-in')).opacity;
@@ -154,8 +165,17 @@ check('reduced motion shows content immediately', await reduced.evaluate(() => {
   return heroOpacity === '1' && reveals && getComputedStyle(document.querySelector('.loader')).display === 'none';
 }));
 check('missing route returns 404', (await desk.request.get(base + '/missing-property/')).status() === 404);
-check('preview robots blocks indexing', (await (await desk.request.get(base + '/robots.txt')).text()).includes('Disallow: /'));
+const robots = await (await desk.request.get(base + '/robots.txt')).text();
+if (production) {
+  check('production robots allows indexing', robots.includes('Allow: /') && !robots.includes('Disallow: /') && robots.includes('Sitemap: https://armanhomes.in/sitemap-index.xml'));
+  check('production homepage uses approved canonical and indexing', await reduced.evaluate(() => document.querySelector('link[rel="canonical"]')?.href === 'https://armanhomes.in/' && document.querySelector('meta[name="robots"]')?.content === 'index, follow, max-image-preview:large'));
+  await reduced.goto(base + '/404.html');
+  check('404 page remains noindex', (await reduced.locator('meta[name="robots"]').getAttribute('content')) === 'noindex, follow');
+} else {
+  check('preview robots blocks indexing', robots.includes('Disallow: /'));
+}
 
+await writeFile('output/audit/interactions.json', JSON.stringify({ passed: !results.some(r => r.startsWith('FAIL')), checks: results.length, results }, null, 2));
 console.log(results.join('\n'));
 await browser.close();
 process.exitCode = results.some((r) => r.startsWith('FAIL')) ? 1 : 0;

@@ -7,7 +7,7 @@ const isCurrent = (href: string) => path === href || (href === '/properties/' &&
 <header class="site-header" data-header>
   <div class="wrap header-bar">
     <a href="/" class="brand" aria-label="Arman Homes — Home">
-      <img src="/images/logo-reversed.webp" width="520" height="163" alt="" />
+      <img src="/images/brand/logo-reversed.webp" srcset="/images/brand/logo-reversed-small.webp 260w, /images/brand/logo-reversed.webp 520w" sizes="168px" width="520" height="163" alt="" />
     </a>
     <nav class="primary-nav" aria-label="Main navigation">
       {navigation.map(([href, label]) => <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>)}

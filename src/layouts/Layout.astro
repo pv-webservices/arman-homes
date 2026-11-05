@@ -14,12 +14,27 @@ import '../styles/sections.css';
 import '../styles/forms.css';
 import '../styles/projects.css';
 import { business } from '../data/site';
+import { projects } from '../data/projects';
+import { properties } from '../data/properties.mjs';
+import headingFont from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2?url';
+import bodyFont from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
 interface Props { title: string; description: string; noindex?: boolean; ogImage?: string; solidHeader?: boolean }
-const { title, description, noindex = false, ogImage = '/images/hero.webp', solidHeader = false } = Astro.props;
+const { title, description, noindex = false, solidHeader = false } = Astro.props;
+const shorten = (text: string, max: number) => text.length <= max ? text : text.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+const pageTitle = `${shorten(title, 51)} | Arman Homes`;
+const pageDescription = shorten(description, 170);
 const origin = import.meta.env.PUBLIC_SITE_URL;
 const indexable = !!origin && import.meta.env.PUBLIC_INDEXABLE === 'true' && !noindex;
-const canonical = origin ? new URL(Astro.url.pathname, origin).href : undefined;
-const schema = { '@context': 'https://schema.org', '@type': 'RealEstateAgent', name: business.name, telephone: business.tel, email: business.email, address: { '@type': 'PostalAddress', addressLocality: 'Hinjewadi Marunji, Pune', addressRegion: 'Maharashtra', addressCountry: 'IN' }, ...(origin ? { url: origin } : {}) };
+const canonical = indexable ? new URL(Astro.url.pathname, origin).href : undefined;
+const site = origin || 'https://armanhomes.in';
+const socialImage = new URL('/images/brand/social-card.png', site).href;
+const labels: Record<string, string> = { projects: 'Projects', properties: 'Properties', 'about-us': 'About Us', contact: 'Contact', services: 'Services', 'buy-property': 'Buy Property', 'sell-property': 'Sell Property', 'rent-property': 'Rent Property', 'residential-properties': 'Residential Properties', 'commercial-properties': 'Commercial Properties', 'privacy-policy': 'Privacy Policy', ...Object.fromEntries(projects.map(p => [p.slug, p.name])), ...Object.fromEntries(properties.map(p => [p.slug, p.title])) };
+const parts = Astro.url.pathname.split('/').filter(Boolean);
+const schema = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'RealEstateAgent', '@id': `${site}/#organization`, name: business.name, url: site, telephone: business.tel, email: business.email, logo: new URL('/images/brand/logo.webp', site).href, address: { '@type': 'PostalAddress', addressLocality: 'Hinjewadi Marunji, Pune', addressRegion: 'Maharashtra', addressCountry: 'IN' } },
+  { '@type': 'WebSite', '@id': `${site}/#website`, url: site, name: business.name, publisher: { '@id': `${site}/#organization` } },
+  ...(parts.length && !noindex ? [{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` }, ...parts.map((part, i) => ({ '@type': 'ListItem', position: i + 2, name: labels[part] || part.replaceAll('-', ' '), item: new URL('/' + parts.slice(0, i + 1).join('/') + '/', site).href }))] }] : []),
+] };
 ---
 <!doctype html>
 <html lang="en">
@@ -27,16 +42,32 @@ const schema = { '@context': 'https://schema.org', '@type': 'RealEstateAgent', n
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#071827" />
-    <title>{title} | Arman Homes</title>
-    <meta name="description" content={description} />
-    <meta name="robots" content={indexable ? 'index,follow' : 'noindex,nofollow'} />
+    <link rel="preload" href={headingFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content={indexable ? 'index, follow, max-image-preview:large' : 'noindex, follow'} />
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta property="og:title" content={`${title} | Arman Homes`} />
-    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
     {canonical && <meta property="og:url" content={canonical} />}
-    {origin && <meta property="og:image" content={new URL(ogImage, origin).href} />}
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Arman Homes logo on a navy background" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content="Arman Homes logo on a navy background" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     <script is:inline>
       document.documentElement.classList.add('js');
       try {
@@ -49,7 +80,7 @@ const schema = { '@context': 'https://schema.org', '@type': 'RealEstateAgent', n
     <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
   </head>
   <body data-header={solidHeader ? 'solid' : undefined}>
-    <div class="loader" aria-hidden="true"><img src="/images/logo-mark.webp" width="200" height="132" alt="" /><span></span></div>
+    <div class="loader" aria-hidden="true"><img src="/images/brand/logo-mark.webp" width="200" height="132" alt="" /><span></span></div>
     <a href="#main" class="skip-link">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>

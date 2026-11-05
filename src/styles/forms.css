@@ -142,3 +142,5 @@
 .detail-page { padding-top: calc(var(--header-h) + 48px); }
 .detail-page .breadcrumb { color: var(--muted); }
 .detail-page .breadcrumb [aria-current] { color: var(--navy); }
+
+button.draft-link { border: 0; background: transparent; padding: 8px 0; display: flex; cursor: pointer; font: inherit; font-weight: 700; }

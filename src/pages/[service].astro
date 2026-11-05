@@ -8,7 +8,7 @@ import InquiryForm from '../components/InquiryForm.astro';
 import Process from '../components/Process.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 import { servicePages } from '../data/service-pages';
-import { business, services } from '../data/site';
+import { business, services, whatsappUrl } from '../data/site';
 export function getStaticPaths() { return servicePages.map((page) => ({ params: { service: page.slug }, props: { page } })); }
 const { page } = Astro.props;
 const seller = page.slug === 'sell-property';
@@ -19,7 +19,7 @@ const related = services.filter((s) => s.slug !== page.slug && s.slug !== 'conta
 <Layout title={page.title} description={page.intro} ogImage={`/images/${page.image}.webp`}>
   <PageHero title={page.title} eyebrow={page.eyebrow} description={page.intro} image={page.image} crumbs={[['/services/', 'Services']]}>
     <a class="btn" href={seller ? '#seller-enquiry' : '/contact/'}>{seller ? 'Tell Us About Your Property' : 'Discuss Your Requirements'} <Icon name="arrow" size={17} /></a>
-    <a class="btn btn-ghost-light" href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />WhatsApp Us</a>
+    <a class="btn btn-ghost-light" href={whatsappUrl(`Hello Arman Homes, I would like to enquire about ${page.title}. Please share more information.`)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />WhatsApp Us</a>
   </PageHero>
 
   <section class="section">
@@ -44,7 +44,7 @@ const related = services.filter((s) => s.slug !== page.slug && s.slug !== 'conta
           <p class="eyebrow">Let’s Get Started</p>
           <h2>Every Move Starts With a Conversation</h2>
           <p class="lead">Share the details of your property using the enquiry form, or speak with us directly.</p>
-          <div class="actions"><a class="btn btn-navy" href={`tel:${business.tel}`}><Icon name="phone" size={17} />Call Arman Homes</a><a class="link-arrow" href={business.whatsapp} target="_blank" rel="noopener noreferrer">Chat on WhatsApp <Icon name="arrow" size={17} /></a></div>
+          <div class="actions"><a class="btn btn-navy" href={`tel:${business.tel}`}><Icon name="phone" size={17} />Call Arman Homes</a><a class="link-arrow" href={whatsappUrl(`Hello Arman Homes, I would like to enquire about ${page.title}. Please share more information.`)} target="_blank" rel="noopener noreferrer">Chat on WhatsApp <Icon name="arrow" size={17} /></a></div>
         </div>
         <div data-reveal style="--delay:120ms"><InquiryForm seller /></div>
       </div>

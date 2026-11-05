@@ -40,7 +40,7 @@ async function writeDerivatives(name, orientation, source) {
   for (const [variant, width] of Object.entries(widths[orientation])) {
     const file = `${publicDir}/${name}${variant === 'small' ? '-small' : ''}.webp`;
     const info = await sharp(source).resize({ width, withoutEnlargement: true }).webp({ quality: webpQuality, effort: 5 }).toFile(file);
-    result[variant] = { src: `/images/${name}${variant === 'small' ? '-small' : ''}.webp`, width: info.width, height: info.height, bytes: info.size };
+    result[variant] = { src: `/images/illustrations/${name}${variant === 'small' ? '-small' : ''}.webp`, width: info.width, height: info.height, bytes: info.size };
   }
   return result;
 }

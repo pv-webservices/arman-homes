@@ -83,71 +83,7 @@ document.querySelectorAll<HTMLFormElement>('.property-search.expanded').forEach(
   }
 });
 
-document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach(form => {
-  form.noValidate = true;
-  const status = form.querySelector<HTMLElement>('[data-form-status]')!;
-  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-  const draft = form.querySelector<HTMLAnchorElement>('[data-draft-link]')!;
-  button.disabled = false;
-  const scriptFallback = form.querySelector<HTMLElement>('[data-script-fallback]');
-  if (scriptFallback) scriptFallback.hidden = true;
-  const fields = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[data-validate]')];
-  const validate = (field: typeof fields[number]) => {
-    let message = field.validity.valueMissing ? 'Please complete this field.' : field.validity.typeMismatch ? 'Please enter a valid email address.' : '';
-    if (field.type === 'tel' && field.value) {
-      const digits = field.value.replace(/\D/g, '');
-      if (!/^\+?[0-9 ()\-.]+$/.test(field.value) || digits.length < 7 || digits.length > 15) message = 'Please enter a valid phone number (7–15 digits).';
-    }
-    if ('value' in field && field.required && !field.value.trim() && field.type !== 'checkbox') message = 'Please complete this field.';
-    const error = document.getElementById(`${field.id}-error`);
-    if (error) error.textContent = message;
-    field.setAttribute('aria-invalid', String(!!message));
-    return !message;
-  };
-  fields.forEach(field => field.addEventListener('input', () => {
-    if (field.getAttribute('aria-invalid') === 'true') validate(field);
-    draft.hidden = true;
-    status.textContent = '';
-  }));
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    draft.hidden = true;
-    const validity = fields.map(validate);
-    if (validity.includes(false)) {
-      status.textContent = 'Please check the highlighted fields.';
-      fields[validity.indexOf(false)].focus();
-      return;
-    }
-    const data = new FormData(form);
-    if (data.get('website')) { status.textContent = 'Unable to prepare this enquiry. Please call us instead.'; return; }
-    const payload = Object.fromEntries(data.entries());
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) {
-      const lines = ['Hello Arman Homes, I would like to discuss a property enquiry.', ...Object.entries(payload).filter(([key]) => !['website', 'consent'].includes(key)).map(([key, value]) => `${key.replaceAll('_', ' ')}: ${value}`)];
-      draft.href = `https://wa.me/919354210824?text=${encodeURIComponent(lines.join('\n'))}`;
-      draft.hidden = false;
-      status.textContent = 'Your draft is ready. Open WhatsApp to review and send it. Nothing has been sent yet.';
-      draft.focus();
-      return;
-    }
-    const original = button.innerHTML;
-    button.disabled = true;
-    button.textContent = 'Sending…';
-    form.setAttribute('aria-busy', 'true');
-    status.textContent = 'Sending your enquiry…';
-    try {
-      const url = new URL(endpoint);
-      if (url.protocol !== 'https:') throw new Error('Invalid endpoint');
-      const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: AbortSignal.timeout(15000) });
-      const result = await response.json();
-      if (!response.ok || result.success !== true) throw new Error('Delivery failed');
-      status.textContent = 'Your enquiry was accepted. Thank you for contacting Arman Homes.';
-      form.reset();
-    } catch {
-      status.textContent = 'Your enquiry could not be confirmed. Your details are still here. Please try again, call us or contact us on WhatsApp.';
-    } finally { button.disabled = false; button.innerHTML = original; form.removeAttribute('aria-busy'); }
-  });
-});
+import './enquiry';
 
 document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
   const main = gallery.querySelector<HTMLImageElement>('[data-gallery-main] img')!;
@@ -155,6 +91,7 @@ document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
   const enlarged = dialog.querySelector<HTMLImageElement>('img')!;
   gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-src]').forEach(button => button.addEventListener('click', () => {
     main.src = button.dataset.gallerySrc!;
+    main.srcset = `${main.src.replace(/\.webp$/, '-small.webp')} 768w, ${main.src} 1536w`;
     main.alt = button.dataset.galleryAlt || '';
     gallery.querySelectorAll('[aria-pressed]').forEach(el => el.setAttribute('aria-pressed', String(el === button)));
   }));

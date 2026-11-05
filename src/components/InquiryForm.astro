@@ -1,28 +1,34 @@
 ---
-import { business } from '../data/site';
+import { business, whatsappUrl } from '../data/site';
 interface Props { seller?: boolean; project?: string }
 const { seller = false, project } = Astro.props;
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+const sourceUrl = new URL(Astro.url.pathname, import.meta.env.PUBLIC_SITE_URL || 'https://armanhomes.in').href;
 const prefix = seller ? 'seller' : 'contact';
-const fields: {name: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete: string; required: boolean}[] = [
-  { name: 'full_name', label: 'Full Name', type: 'text', autocomplete: 'name', required: true },
-  { name: 'phone', label: 'Phone Number', type: 'tel', autocomplete: 'tel', required: true },
-  !seller ? { name: 'email', label: 'Email Address', type: 'email', autocomplete: 'email', required: true } : { name: 'property_location', label: 'Property Location', type: 'text', autocomplete: 'off', required: true },
+const context = project || (seller ? 'Sell Property' : 'Property enquiry');
+const fields: {name: string; label: string; type: 'text' | 'tel'; autocomplete: string}[] = [
+  { name: 'full_name', label: 'Full Name', type: 'text', autocomplete: 'name' },
+  { name: 'phone', label: 'Phone Number', type: 'tel', autocomplete: 'tel' },
+  ...(seller ? [{ name: 'property_location', label: 'Property Location', type: 'text' as const, autocomplete: 'off' }] : []),
 ];
 ---
 <div class="inquiry-panel"><h2>{seller ? 'Let’s Talk About Your Property' : project ? `Enquire About ${project}` : 'Tell Us What You Have in Mind'}</h2><p>{seller ? 'Share a few details to start your selling conversation.' : project ? 'Get the latest price sheet, availability and a site-visit slot.' : 'A new home, a business space or your next move — we’re ready to listen.'}</p>
-<form class="inquiry-form" data-inquiry-form data-endpoint={endpoint}>
+<form class="inquiry-form" data-inquiry-form data-source={sourceUrl} data-context={context}>
   {project && <input type="hidden" name="project" value={project} />}
   <div class="form-grid">
-    {fields.map(field => <div class="form-field"><label for={`${prefix}-${field.name}`}>{field.label} *</label><input data-validate id={`${prefix}-${field.name}`} name={field.name} type={field.type} autocomplete={field.autocomplete} required={field.required} maxlength={field.type === 'tel' ? 24 : 160} aria-describedby={`${prefix}-${field.name}-error`} /><span class="field-error" id={`${prefix}-${field.name}-error`}></span></div>)}
+    {fields.map(field => <div class="form-field"><label for={`${prefix}-${field.name}`}>{field.label} *</label><input data-validate id={`${prefix}-${field.name}`} name={field.name} type={field.type} autocomplete={field.autocomplete} required minlength={field.type === 'tel' ? 10 : 2} maxlength={field.type === 'tel' ? 24 : 100} aria-describedby={`${prefix}-${field.name}-error`} /><span class="field-error" id={`${prefix}-${field.name}-error`}></span></div>)}
     <div class="form-field"><label for={`${prefix}-type`}>{seller ? 'Property Type' : 'Inquiry Type'} *</label><select data-validate id={`${prefix}-type`} name={seller ? 'property_type' : 'inquiry_type'} required aria-describedby={`${prefix}-type-error`}><option value="">Please select</option>{(seller ? ['Apartment', 'Villa', 'Independent House', 'Office Space', 'Shop', 'Plot', 'Other Property'] : ['Buy Property', 'Sell Property', 'Rent Property', 'Residential Inquiry', 'Commercial Inquiry', 'General Inquiry']).map(label => <option selected={!!project && label === 'Buy Property'}>{label}</option>)}</select><span class="field-error" id={`${prefix}-type-error`}></span></div>
-    {seller && <div class="form-field full"><label for={`${prefix}-details`}>Property Details *</label><textarea data-validate id={`${prefix}-details`} name="property_details" rows="3" required maxlength="2000" aria-describedby={`${prefix}-details-error`} placeholder="Tell us about the property, its size and your selling plans."></textarea><span class="field-error" id={`${prefix}-details-error`}></span></div>}
-    <div class="form-field full"><label for={`${prefix}-message`}>Message *</label><textarea data-validate id={`${prefix}-message`} name="message" rows="4" required maxlength="3000" aria-describedby={`${prefix}-message-error`} placeholder="Your preferred location, budget or questions…"></textarea><span class="field-error" id={`${prefix}-message-error`}></span></div>
+    {seller && <div class="form-field full"><label for={`${prefix}-details`}>Property Details *</label><textarea data-validate id={`${prefix}-details`} name="property_details" rows="3" required minlength="10" maxlength="1000" aria-describedby={`${prefix}-details-error`} placeholder="Tell us about the property, its size and your selling plans."></textarea><span class="field-error" id={`${prefix}-details-error`}></span></div>}
+    <div class="form-field full"><label for={`${prefix}-message`}>Message *</label><textarea data-validate id={`${prefix}-message`} name="message" rows="4" required minlength="10" maxlength="1000" aria-describedby={`${prefix}-message-error`} placeholder="Your preferred location, budget or questions…"></textarea><span class="field-error" id={`${prefix}-message-error`}></span></div>
   </div>
-  <div class="form-honeypot" aria-hidden="true"><label for={`${prefix}-website`}>Leave this field empty</label><input id={`${prefix}-website`} name="website" tabindex="-1" autocomplete="off" /></div>
   <label class="consent"><input data-validate id={`${prefix}-consent`} type="checkbox" name="consent" value="yes" required aria-describedby={`${prefix}-consent-error`} /><span>I agree to share these details with Arman Homes for this enquiry. Read our <a href="/privacy-policy/">Privacy Policy</a>.</span></label><span class="field-error" id={`${prefix}-consent-error`}></span>
-  <button class="btn btn-navy" type="submit" disabled>{endpoint ? 'Send Enquiry' : 'Prepare WhatsApp Enquiry'} <span aria-hidden="true">→</span></button>
-  <p class="form-notice">{endpoint ? 'Your information will be sent to our enquiry service.' : 'This form prepares a WhatsApp message. You review and send it in WhatsApp; submitting here does not send an enquiry.'}</p>
-  <p class="form-status" data-form-status role="status" aria-live="polite"></p><a class="draft-link" data-draft-link hidden target="_blank" rel="noopener noreferrer">Open WhatsApp to Review & Send →</a>
-  <p class="form-notice" data-script-fallback>JavaScript is needed to prepare this enquiry. Please call {business.phone} or email {business.email}.</p>
+  <button class="btn btn-navy" type="submit" disabled>Enquire on WhatsApp <span aria-hidden="true">→</span></button>
+  <p class="form-notice">Review and send the prefilled message in WhatsApp. Opening WhatsApp does not send your enquiry.</p>
+  <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+  <div data-form-fallback hidden>
+    <a class="draft-link" data-draft-link href={business.whatsapp} target="_blank" rel="noopener noreferrer">Open WhatsApp to Review & Send →</a>
+    <button class="draft-link" data-copy-message type="button">Copy enquiry message</button>
+    <div class="form-field" data-manual-copy hidden><label for={`${prefix}-copy`}>Select and copy your enquiry</label><textarea id={`${prefix}-copy`} data-message-preview readonly rows="6"></textarea></div>
+  </div>
+  <p class="form-notice">You can also <a href={whatsappUrl(`Hello Arman Homes, I would like to enquire about ${context}.`)} target="_blank" rel="noopener noreferrer">chat directly on WhatsApp</a> or <a href={`tel:${business.tel}`}>call {business.phone}</a>.</p>
+  <noscript><p class="form-notice">The form needs JavaScript to prepare your message. Please use the direct WhatsApp or phone link above.</p></noscript>
 </form></div>

@@ -9,7 +9,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import FilmSection from '../components/FilmSection.astro';
 import Township from '../components/Township.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import { business, services } from '../data/site';
+import { services, whatsappUrl } from '../data/site';
 import { projects, projectBySlug } from '../data/projects';
 const slides = projects.map((p) => ({ project: p, image: p.slug === 'duet' ? 'duet-stargazing' : p.slug === 'qrious' ? 'qrious-pool' : p.hero }));
 const spotlight = projectBySlug('canvas-d-tower')!;
@@ -92,7 +92,7 @@ const SLIDE_MS = 7000;
         <p class="fine-print">{spotlight.pricingNote} MahaRERA No. {spotlight.rera}</p>
         <div class="actions">
           <a class="btn" href={`/projects/${spotlight.slug}/`}>Explore Canvas – D Tower <Icon name="arrow" size={17} /></a>
-          <a class="btn btn-ghost-light" href={`${business.whatsapp}?text=${encodeURIComponent('Hello Arman Homes, please share the latest price sheet for Canvas – D Tower at Life Republic.')}`} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Get Price Sheet</a>
+          <a class="btn btn-ghost-light" href={whatsappUrl('Hello Arman Homes, please share the latest price sheet for Canvas – D Tower at Life Republic.')} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Get Price Sheet</a>
         </div>
       </div>
     </div>

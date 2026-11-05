@@ -1,0 +1,21 @@
+import sharp from 'sharp';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+
+await mkdir('public/images/brand', { recursive: true });
+const mark = await sharp('public/images/brand/logo-mark.webp').resize(384, 384, { fit: 'inside' }).png().toBuffer();
+const square = await sharp({ create: { width: 512, height: 512, channels: 4, background: '#071827' } }).composite([{ input: mark, gravity: 'centre' }]).png().toBuffer();
+for (const size of [48, 96, 192, 512]) await sharp(square).resize(size, size).png().toFile(`public/favicon-${size}x${size}.png`);
+await sharp(square).resize(180, 180).png().toFile('public/apple-touch-icon.png');
+const png = await readFile('public/favicon-48x48.png');
+const header = Buffer.alloc(22);
+header.writeUInt16LE(1, 2); header.writeUInt16LE(1, 4);
+header[6] = 48; header[7] = 48;
+header.writeUInt16LE(1, 10); header.writeUInt16LE(32, 12);
+header.writeUInt32LE(png.length, 14); header.writeUInt32LE(22, 18);
+await writeFile('public/favicon.ico', Buffer.concat([header, png]));
+const svgPixels = await readFile('public/favicon-96x96.png');
+await writeFile('public/favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><image width="96" height="96" href="data:image/png;base64,${svgPixels.toString('base64')}"/></svg>`);
+await writeFile('public/site.webmanifest', JSON.stringify({ name: 'Arman Homes', short_name: 'Arman Homes', start_url: '/', display: 'browser', theme_color: '#071827', background_color: '#071827', icons: [192, 512].map(size => ({ src: `/favicon-${size}x${size}.png`, sizes: `${size}x${size}`, type: 'image/png' })) }, null, 2));
+const logo = await sharp('public/images/brand/logo-reversed.webp').resize({ width: 620 }).png().toBuffer();
+await sharp({ create: { width: 1200, height: 630, channels: 3, background: '#071827' } }).composite([{ input: logo, gravity: 'centre' }]).png().toFile('public/images/brand/social-card.png');
+console.log('Logo-derived square icons and 1200×630 social card written.');
