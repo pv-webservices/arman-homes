@@ -28,8 +28,8 @@ test('prices use the Indian short form from the design', () => {
   assert.equal(formatPrice({ price: 30000, transaction: 'rent' }), '₹30,000 / Month');
   assert.equal(formatPrice({ price: 75000, transaction: 'rent' }), '₹75,000 / Month');
 });
-test('rental listings supplied by the client are published at their monthly rents', () => {
-  const rent = (title) => properties.filter((p) => p.transaction === 'rent' && p.title === title).map((p) => p.price);
+test('Life Republic rentals supplied by the client are published at their monthly rents', () => {
+  const rent = (title) => properties.filter((p) => p.location === 'Life Republic' && p.transaction === 'rent' && p.title === title).map((p) => p.price);
   assert.ok(rent('1 BHK Apartment').includes(18000));
   assert.ok(rent('2 BHK Apartment').includes(22000));
   assert.ok(rent('3 BHK Apartment').includes(30000));
@@ -38,7 +38,11 @@ test('rental listings supplied by the client are published at their monthly rent
   assert.equal(formatPrice({ price: 18000, transaction: 'rent' }), '₹18,000 / Month');
 });
 test('descriptions read naturally when size or bathrooms are not yet known', () => {
-  const p = properties.find((x) => x.slug === '1-bhk-apartment-for-rent-hinjewadi');
-  assert.match(p.description, /^1 BHK Apartment in Hinjewadi, Pune with 1 bedroom\. Available for rent/);
+  const p = properties.find((x) => x.slug === '1-bhk-apartment-for-rent-life-republic');
+  assert.match(p.description, /^1 BHK Apartment in Life Republic, Pune with 1 bedroom\. Located within Life Republic, .* Available for rent/);
   assert.doesNotMatch(p.description, /undefined/);
+});
+test('Life Republic rentals can be found with the location filter', () => {
+  assert.equal(filterProperties(properties, { location: 'Life Republic', transaction: 'rent' }).length, 5);
+  assert.equal(filterProperties(properties, { location: 'life republic', type: 'villa' }).length, 2);
 });
