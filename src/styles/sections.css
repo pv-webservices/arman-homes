@@ -283,15 +283,15 @@
 
 /* Contact page tiles */
 .contact-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.contact-tiles a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; min-height: 92px; padding: 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r); transition: transform 0.4s var(--ease), border-color 0.4s, box-shadow 0.4s; }
-.contact-tiles a > span:nth-child(2) { min-width: 0; font-weight: 700; overflow-wrap: anywhere; line-height: 1.4; color: var(--navy); }
+.contact-tiles > a, .contact-tiles > .is-static { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; min-height: 92px; padding: 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r); transition: transform 0.4s var(--ease), border-color 0.4s, box-shadow 0.4s; }
+.contact-tiles > * > span:nth-child(2) { min-width: 0; font-weight: 700; overflow-wrap: anywhere; line-height: 1.4; color: var(--navy); }
 .contact-tiles small { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; }
 .contact-tiles a > svg { color: var(--muted); }
 .tile-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--navy); color: var(--gold); }
 @media (hover: hover) { .contact-tiles a:hover { transform: translateY(-3px); border-color: var(--bronze); box-shadow: var(--shadow); } }
 @media (max-width: 560px) { .contact-tiles { grid-template-columns: 1fr; } }
 @media (max-width: 400px) {
-  .contact-tiles a { gap: 12px; padding: 16px; }
+  .contact-tiles > a, .contact-tiles > .is-static { gap: 12px; padding: 16px; }
   .contact-tiles a > svg { display: none; }
   .tile-icon { width: 40px; height: 40px; }
 }

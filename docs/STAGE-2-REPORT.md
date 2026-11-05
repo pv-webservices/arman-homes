@@ -11,7 +11,12 @@ Stage 2 therefore started from both:
 1. A snapshot of Prompt 1's final working tree (commit object `4e13740`, made with a temporary index; Prompt 1's checkout, index and branch were not touched). After Stage 2 finished, its tree hash was re-checked and is identical, so no later Prompt 1 change was missed.
 2. `main` (`3d71323`, PR #1), merged with `--no-commit`. One conflict (`src/data/properties.mjs`) was resolved by keeping all nine listings and moving their image paths into Prompt 1's new folders.
 
-The `claude/whatsapp-enquiries` branch (`b8c2ecf`) was **not** merged. Prompt 1's WhatsApp implementation supersedes it, and it also removed the `mailto:` email links that the brief says must stay.
+**Update: PR #2 (`claude/whatsapp-enquiries`, `b8c2ecf`) was merged to `main` while this stage ran**, so `main` was merged again (six conflicts). Resolution:
+- **Enquiry forms:** Prompt 1's implementation was kept (`src/scripts/enquiry.ts`; six forms, copy/call fallbacks, canonical source URL, 109 tested checks). PR #2's `src/scripts/whatsapp.mjs` and `tests/whatsapp.test.mjs` were removed as superseded.
+- **Email display:** PR #2's decision was adopted. The business email is shown as plain text, not a `mailto:` link, in the header menu, footer, contact band and Contact page, and is now unlinked on the Privacy Policy too.
+- **Root `QA.md`:** stays deleted; it lives at `docs/QA.md`.
+
+Every suite was re-run on the merged result (see Section D).
 
 The result is uncommitted in this worktree (merge state retained). "Before" below means Prompt 1 + PR #1 before any Stage 2 optimization.
 
@@ -163,7 +168,7 @@ Keyboard (manual-equivalent, scripted with real key presses): the first Tab reac
 | Validation | Required fields, 10–15 digit phone, min/max lengths, consent, `aria-invalid`, field errors linked via `aria-describedby`, focus moves to the first invalid field, entered values kept, duplicate activation locked |
 | Fallbacks | Direct WhatsApp link, copy message (with manual-select fallback), click-to-call; offline and blocked-popup messages; no "sent successfully" claim |
 | Email delivery | None. No FormSubmit/SMTP/EmailJS/Nodemailer/Gmail API/Resend/PHP mail/endpoint code in `src`, `public`, `dist` or dependencies |
-| Public email | armanhomess@gmail.com visible on every page (mobile menu, contact band, footer: 3 `mailto:` links on the homepage) and on the Contact page |
+| Public email | armanhomess@gmail.com visible as plain text on every page (mobile menu, contact band, footer) and on the Contact and Privacy pages. It is unlinked per merged PR #2; the brief allows display-only |
 | Not tested | Real WhatsApp delivery, native app handoff on physical phones and real calls: all mocked or inspected, as authorized |
 
 ## F. Final SEO verification

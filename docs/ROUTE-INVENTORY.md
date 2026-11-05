@@ -52,7 +52,7 @@ Checked 5 November 2026. Initial tree: 22 HTML pages including the obsolete than
 | Enquiry fallbacks | Same six forms | Offline and blocked popup keep inputs; direct WhatsApp link; clipboard copy or selected text; call link. No-JS submit remains disabled and direct links work. |
 | WhatsApp CTAs | Header/menu/footer, floating desktop widget, mobile bar, services, projects, property details | Official click-to-chat URL with digits-only verified recipient and encoded default/context message. All external tabs use noopener/noreferrer. |
 | Phone CTAs | All | `tel:+919354210824`; link inspection only, no real calls. |
-| Public business email | Contact/footer/privacy | Existing `mailto:armanhomess@gmail.com` remains visible; no form delivery. |
+| Public business email | Contact/footer/contact band/mobile menu/privacy | armanhomess@gmail.com shown as plain text (unlinked per merged PR #2); no form delivery. |
 | Error navigation | Invalid URLs | Home/properties links plus WhatsApp and phone; true 404 and no canonical. |
 
 The floating desktop widget and mobile contact bar are mutually exclusive at mobile widths; existing safe-area padding remains. No additional widget was added.

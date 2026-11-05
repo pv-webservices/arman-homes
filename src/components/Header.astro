@@ -34,7 +34,7 @@ const isCurrent = (href: string) => path === href || (href === '/properties/' &&
     <div class="mobile-contact">
       <a class="btn" href={`tel:${business.tel}`}><Icon name="phone" size={18} />Call {business.phone}</a>
       <a class="btn btn-ghost-light" href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={18} />Chat on WhatsApp</a>
-      <a class="mobile-email" href={`mailto:${business.email}`}>{business.email}</a>
+      <p class="mobile-email">{business.email}</p>
     </div>
   </div>
 </div>

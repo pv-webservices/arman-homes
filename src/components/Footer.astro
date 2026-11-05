@@ -25,7 +25,7 @@ import { projects } from '../data/projects';
       <h2>Contact Info</h2>
       <address>
         <a href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a>
-        <a href={`mailto:${business.email}`}><Icon name="mail" size={17} />{business.email}</a>
+        <p class="is-static"><Icon name="mail" size={17} />{business.email}</p>
         <a href={business.maps} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={17} />{business.location}</a>
         <a href={business.whatsapp} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={17} />Chat on WhatsApp</a>
       </address>
