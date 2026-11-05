@@ -1,8 +1,12 @@
 ---
 import { business } from '../data/site';
+import Icon from './Icon.astro';
 interface Props { seller?: boolean; project?: string }
 const { seller = false, project } = Astro.props;
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+// Enquiries are delivered only through WhatsApp: the visitor sends the prepared message themselves.
+const intro = seller ? 'Hello Arman Homes, I would like to discuss selling my property.'
+  : project ? `Hello Arman Homes, I would like to enquire about ${project}.`
+  : 'Hello Arman Homes, I would like to discuss a property enquiry.';
 const prefix = seller ? 'seller' : 'contact';
 const fields: {name: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete: string; required: boolean}[] = [
   { name: 'full_name', label: 'Full Name', type: 'text', autocomplete: 'name', required: true },
@@ -11,8 +15,8 @@ const fields: {name: string; label: string; type: 'text' | 'tel' | 'email'; auto
 ];
 ---
 <div class="inquiry-panel"><h2>{seller ? 'Let’s Talk About Your Property' : project ? `Enquire About ${project}` : 'Tell Us What You Have in Mind'}</h2><p>{seller ? 'Share a few details to start your selling conversation.' : project ? 'Get the latest price sheet, availability and a site-visit slot.' : 'A new home, a business space or your next move — we’re ready to listen.'}</p>
-<form class="inquiry-form" data-inquiry-form data-endpoint={endpoint}>
-  {project && <input type="hidden" name="project" value={project} />}
+<form class="inquiry-form" data-inquiry-form data-whatsapp={business.whatsapp} data-intro={intro}>
+  {project && <input type="hidden" name="project" value={project} data-label="Project" />}
   <div class="form-grid">
     {fields.map(field => <div class="form-field"><label for={`${prefix}-${field.name}`}>{field.label} *</label><input data-validate id={`${prefix}-${field.name}`} name={field.name} type={field.type} autocomplete={field.autocomplete} required={field.required} maxlength={field.type === 'tel' ? 24 : 160} aria-describedby={`${prefix}-${field.name}-error`} /><span class="field-error" id={`${prefix}-${field.name}-error`}></span></div>)}
     <div class="form-field"><label for={`${prefix}-type`}>{seller ? 'Property Type' : 'Inquiry Type'} *</label><select data-validate id={`${prefix}-type`} name={seller ? 'property_type' : 'inquiry_type'} required aria-describedby={`${prefix}-type-error`}><option value="">Please select</option>{(seller ? ['Apartment', 'Villa', 'Independent House', 'Office Space', 'Shop', 'Plot', 'Other Property'] : ['Buy Property', 'Sell Property', 'Rent Property', 'Residential Inquiry', 'Commercial Inquiry', 'General Inquiry']).map(label => <option selected={!!project && label === 'Buy Property'}>{label}</option>)}</select><span class="field-error" id={`${prefix}-type-error`}></span></div>
@@ -21,8 +25,8 @@ const fields: {name: string; label: string; type: 'text' | 'tel' | 'email'; auto
   </div>
   <div class="form-honeypot" aria-hidden="true"><label for={`${prefix}-website`}>Leave this field empty</label><input id={`${prefix}-website`} name="website" tabindex="-1" autocomplete="off" /></div>
   <label class="consent"><input data-validate id={`${prefix}-consent`} type="checkbox" name="consent" value="yes" required aria-describedby={`${prefix}-consent-error`} /><span>I agree to share these details with Arman Homes for this enquiry. Read our <a href="/privacy-policy/">Privacy Policy</a>.</span></label><span class="field-error" id={`${prefix}-consent-error`}></span>
-  <button class="btn btn-navy" type="submit" disabled>{endpoint ? 'Send Enquiry' : 'Prepare WhatsApp Enquiry'} <span aria-hidden="true">→</span></button>
-  <p class="form-notice">{endpoint ? 'Your information will be sent to our enquiry service.' : 'This form prepares a WhatsApp message. You review and send it in WhatsApp; submitting here does not send an enquiry.'}</p>
-  <p class="form-status" data-form-status role="status" aria-live="polite"></p><a class="draft-link" data-draft-link hidden target="_blank" rel="noopener noreferrer">Open WhatsApp to Review & Send →</a>
-  <p class="form-notice" data-script-fallback>JavaScript is needed to prepare this enquiry. Please call {business.phone} or email {business.email}.</p>
+  <button class="btn btn-navy" type="submit" disabled><Icon name="whatsapp" size={18} />Send on WhatsApp</button>
+  <p class="form-notice">Your enquiry opens in WhatsApp, ready to send. Nothing reaches us until you press send in WhatsApp.</p>
+  <p class="form-status" data-form-status role="status" aria-live="polite"></p><a class="draft-link" data-draft-link hidden target="_blank" rel="noopener noreferrer">Open WhatsApp to Send →</a>
+  <p class="form-notice" data-script-fallback>JavaScript is needed to prepare this enquiry. Please call {business.phone} or <a href={business.whatsapp} target="_blank" rel="noopener noreferrer">message us on WhatsApp</a>.</p>
 </form></div>

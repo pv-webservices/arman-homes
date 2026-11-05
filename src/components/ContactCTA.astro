@@ -17,7 +17,7 @@ import { business } from '../data/site';
     </div>
     <address class="contact-box" data-reveal style="--delay:120ms">
       <a href={`tel:${business.tel}`}><Icon name="phone" size={20} />{business.phone}</a>
-      <a href={`mailto:${business.email}`}><Icon name="mail" size={20} />{business.email}</a>
+      <p class="is-static"><Icon name="mail" size={20} />{business.email}</p>
       <a href={business.maps} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={20} />{business.location}</a>
       <i aria-hidden="true"></i>
     </address>

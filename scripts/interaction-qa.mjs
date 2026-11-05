@@ -27,6 +27,8 @@ check('expanded search shows only matching listing', await mobile.evaluate(() =>
 
 // Header state and hero slideshow
 const desk = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+// Enquiry forms open WhatsApp; record the URL instead so QA never contacts wa.me.
+await desk.addInitScript(() => { window.open = (url) => { window.__openedUrl = String(url); return null; }; });
 await desk.goto(base + '/', { waitUntil: 'networkidle' });
 await desk.click('[data-slide-to="2"]');
 check('hero control switches slide', await desk.evaluate(() => document.querySelectorAll('[data-slide]')[2].classList.contains('is-active') && document.querySelectorAll('[data-chip]')[2].classList.contains('is-active')));
@@ -61,6 +63,8 @@ await desk.check('#contact-consent');
 await desk.click('[data-inquiry-form] button[type=submit]');
 const href = await desk.getAttribute('[data-draft-link]', 'href');
 check('form prepares WhatsApp draft', !!href && href.startsWith('https://wa.me/919354210824?text='));
+check('form opens WhatsApp with the draft', await desk.evaluate(() => window.__openedUrl) === href);
+check('form message uses field labels', decodeURIComponent(href).includes('*Full Name:* Test Visitor'));
 
 // Internal links resolve
 const links = new Set();

@@ -5,7 +5,7 @@ import InquiryForm from '../components/InquiryForm.astro';
 import Icon from '../components/Icon.astro';
 import { business } from '../data/site';
 ---
-<Layout title="Contact Us" description="Contact Arman Homes in Hinjewadi Marunji, Pune. Call +91 9354210824, email armanhomess@gmail.com, or discuss your property requirements on WhatsApp.">
+<Layout title="Contact Us" description="Contact Arman Homes in Hinjewadi Marunji, Pune. Call +91 9354210824 or send your property enquiry on WhatsApp to buy, sell or rent in Pune.">
   <PageHero title="Let’s Find Your Next Chapter" eyebrow="Contact Arman Homes" description="Looking to buy, sell or rent? Tell us what you have in mind. We’re here to start the conversation." image="pune-horizon">
     <a class="btn" href="#enquiry">Send an Enquiry <Icon name="arrow" size={17} /></a>
     <a class="btn btn-ghost-light" href={`tel:${business.tel}`}><Icon name="phone" size={17} />{business.phone}</a>
@@ -18,7 +18,7 @@ import { business } from '../data/site';
         <h2>A Conversation Away</h2>
         <address class="contact-tiles contact-stack">
           <a href={`tel:${business.tel}`}><span class="tile-icon"><Icon name="phone" size={22} /></span><span><small>Call us</small>{business.phone}</span><Icon name="arrow-ur" size={20} /></a>
-          <a href={`mailto:${business.email}`}><span class="tile-icon"><Icon name="mail" size={22} /></span><span><small>Email us</small>{business.email}</span><Icon name="arrow-ur" size={20} /></a>
+          <p class="is-static"><span class="tile-icon"><Icon name="mail" size={22} /></span><span><small>Email</small>{business.email}</span></p>
           <a href={business.whatsapp} target="_blank" rel="noopener noreferrer"><span class="tile-icon"><Icon name="whatsapp" size={22} /></span><span><small>WhatsApp</small>Chat with Arman Homes</span><Icon name="arrow-ur" size={20} /></a>
           <a href={business.maps} target="_blank" rel="noopener noreferrer"><span class="tile-icon"><Icon name="pin" size={22} /></span><span><small>Our location</small>{business.location}</span><Icon name="arrow-ur" size={20} /></a>
         </address>
