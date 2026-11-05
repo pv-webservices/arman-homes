@@ -1,10 +1,10 @@
-// Derives web logo files from the supplied "public/website logo.jpeg" without altering its artwork.
+// Derives web logo files from the supplied "source-files/brand/website-logo.jpeg" without altering its artwork.
 // logo.webp          — original colours, white background removed (for light surfaces)
 // logo-reversed.webp — dark lettering/blocks turned ivory, gold untouched (for navy surfaces)
 // logo-mark.webp     — the reversed building mark alone (page loader on navy)
 import sharp from 'sharp';
 
-const SOURCE = 'public/website logo.jpeg';
+const SOURCE = 'source-files/brand/website-logo.jpeg';
 const IVORY = [250, 246, 238];
 const WHITE_TOLERANCE = 70; // distance from white over which pixels become fully opaque
 
@@ -38,7 +38,7 @@ async function save(pipeline, file, width, extract) {
   await sharp(trimmed).trim({ threshold: 1 }).resize({ width }).webp({ quality: 90, alphaQuality: 90 }).toFile(file);
 }
 
-await save(derive(false), 'public/images/logo.webp', 520);
-await save(derive(true), 'public/images/logo-reversed.webp', 520);
-await save(derive(true), 'public/images/logo-mark.webp', 200, { left: 60, top: 170, width: 700, height: 480 });
+await save(derive(false), 'public/images/brand/logo.webp', 520);
+await save(derive(true), 'public/images/brand/logo-reversed.webp', 520);
+await save(derive(true), 'public/images/brand/logo-mark.webp', 200, { left: 60, top: 170, width: 700, height: 480 });
 console.log('Logo derivatives written.');

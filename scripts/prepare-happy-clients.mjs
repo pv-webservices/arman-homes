@@ -1,9 +1,9 @@
 // Crops the client handover photos (tall phone shots) to 4:5 portraits and writes WebP derivatives.
-// Usage: node scripts/prepare-happy-clients.mjs [sourceDir]   (default: source-assets/happy-clients)
+// Usage: node scripts/prepare-happy-clients.mjs [sourceDir]   (default: source-files/original-images/client-photos)
 import { mkdir } from 'node:fs/promises';
 import sharp from 'sharp';
 
-const SOURCE_DIR = process.argv[2] ?? 'source-assets/happy-clients';
+const SOURCE_DIR = process.argv[2] ?? 'source-files/original-images/client-photos';
 const OUT_DIR = 'public/images/happy-clients';
 const RATIO = 5 / 4; // height / width
 const SIZES = [['', 720], ['-small', 480]];

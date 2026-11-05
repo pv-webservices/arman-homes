@@ -1,13 +1,15 @@
 ---
 import Icon from './Icon.astro';
 import { formatPrice } from '../data/properties.mjs';
+import { imageBySrc, srcsetFor } from '../data/images';
 const { property: p } = Astro.props;
 const cover = p.images[0];
-const small = cover.src.replace(/\.webp$/, '-small.webp');
+const asset = imageBySrc(cover.src);
+if (!asset) throw new Error(`Unknown property image ${cover.src}`);
 ---
 <article class="property-card" data-property data-transaction={p.transaction} data-category={p.category} data-type={p.type} data-location={p.location} data-price={p.price} data-bedrooms={p.bedrooms}>
   <a class="property-image media zoom" href={`/properties/${p.slug}/`} tabindex="-1" aria-hidden="true">
-    <img src={small} srcset={`${small} 768w, ${cover.src} 1536w`} sizes="(max-width: 640px) 80vw, (max-width: 1100px) 45vw, 22vw" alt="" width="768" height="512" loading="lazy" decoding="async" />
+    <img src={asset.small} srcset={srcsetFor(asset)} sizes="(max-width: 640px) 80vw, (max-width: 1100px) 45vw, 22vw" alt="" width={asset.width} height={asset.height} loading="lazy" decoding="async" />
     <span class:list={['badge', { rent: p.transaction === 'rent' }]}>{p.transaction === 'rent' ? 'For Rent' : 'For Sale'}</span>
   </a>
   <div class="property-body">

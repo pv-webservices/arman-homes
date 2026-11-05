@@ -1,17 +1,19 @@
 // Full-site QA against a running server: node scripts/site-qa.mjs <baseUrl>
-// Route sweep (12 pages × 5 widths): HTTP status, horizontal overflow, one H1, unique titles,
+// Route sweep at five widths: HTTP status, horizontal overflow, one H1, unique titles,
 // descriptions, broken images and uncaught errors. Axe WCAG 2.1 AA scans at 1440 and 390 once
 // fonts, hero/reveal animations and the loader have settled. Then an internal link sweep and
 // final screenshots. Writes output/qa/site-qa.json and exits non-zero on any failure.
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { properties } from '../src/data/properties.mjs';
 
 const base = process.argv[2] || 'http://127.0.0.1:4330';
 const axeSource = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
-const routes = ['/', '/projects/', '/projects/canvas-d-tower/', '/projects/qrious/', '/projects/echoes/', '/projects/duet/', '/properties/', '/properties/3-bhk-premium-apartment-hinjewadi/', '/buy-property/', '/sell-property/', '/rent-property/', '/residential-properties/', '/commercial-properties/', '/about-us/', '/services/', '/contact/', '/privacy-policy/', '/404/'];
-const widths = [1440, 1024, 768, 390, 320];
-const axeWidths = [1440, 390];
+const routes = ['/', '/projects/', '/projects/canvas-d-tower/', '/projects/qrious/', '/projects/echoes/', '/projects/duet/', '/properties/', ...properties.map((property) => `/properties/${property.slug}/`), '/buy-property/', '/sell-property/', '/rent-property/', '/residential-properties/', '/commercial-properties/', '/about-us/', '/services/', '/contact/', '/privacy-policy/', '/404.html'];
+const stage1 = process.argv.includes('--stage1');
+const widths = stage1 ? [1440, 768, 375] : [1440, 1024, 768, 375, 320];
+const axeWidths = stage1 ? [] : [1440, 375];
 const shots = [['/', 1440], ['/', 768], ['/', 390], ['/contact/', 390], ['/sell-property/', 390], ['/about-us/', 1440], ['/services/', 768], ['/properties/', 320]];
 
 await mkdir('output/qa', { recursive: true });
@@ -39,8 +41,12 @@ async function settle(page) {
     scrollTo(0, 0);
     await Promise.all([...document.images].map((img) => img.decode().catch(() => {})));
     await new Promise((r) => setTimeout(r, 50));
+    // Below-the-fold homepage sections use content-visibility: auto, so off-screen reveal elements have
+    // no computed style yet and their transition would only start when axe reads them. Compute style now
+    // so those transitions exist and can be finished with the rest.
+    document.querySelectorAll('[data-reveal]').forEach((el) => getComputedStyle(el).opacity);
     const finite = () => document.getAnimations().filter((a) => a.effect?.getTiming().iterations !== Infinity && a.playState !== 'finished');
-    await Promise.all(finite().map((a) => a.finished.catch(() => {})));
+    finite().forEach((animation) => { try { animation.finish(); } catch { /* Non-finishable animations retain their current state. */ } });
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
   });
 }
@@ -57,6 +63,7 @@ for (const width of widths) {
   const page = await context.newPage({ viewport: { width, height: 900 } });
   await page.setViewportSize({ width, height: 900 });
   page.on('pageerror', (error) => pageErrors.push({ width, url: page.url(), message: error.message }));
+  page.on('console', message => { if (message.type() === 'error' && !message.text().includes('404')) pageErrors.push({ width, url: page.url(), message: message.text() }); });
   for (const route of routes) {
     const response = await page.goto(base + route, { waitUntil: 'load' });
     await settle(page);
@@ -72,7 +79,7 @@ for (const width of widths) {
     state.links.forEach((link) => internalLinks.add(link));
     const status = response.status();
     const problems = [];
-    if (route !== '/404/' && status !== 200) problems.push(`HTTP ${status}`);
+    if (route !== '/404.html' && status !== 200) problems.push(`HTTP ${status}`);
     if (state.overflow > 1) problems.push(`overflow ${state.overflow}px (${state.wideElements.join(', ')})`);
     if (state.h1 !== 1) problems.push(`${state.h1} H1s`);
     if (!state.description) problems.push('missing description');
@@ -90,6 +97,7 @@ for (const width of widths) {
     cases += 1;
   }
   await page.close();
+  console.log(`Checked ${routes.length} pages at ${width}px.`);
 }
 
 // Internal links (query strings kept, fragments dropped; fragment targets checked separately)

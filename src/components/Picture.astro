@@ -1,19 +1,26 @@
 ---
-import { image } from '../data/images';
-interface Props { name: string; alt?: string; priority?: boolean; class?: string; sizes?: string; decorative?: boolean }
-const { name, alt, priority = false, class: className = '', sizes = '100vw', decorative = false } = Astro.props;
+import { image, srcsetFor } from '../data/images';
+interface Props { name: string; alt?: string; priority?: boolean; class?: string; sizes?: string; decorative?: boolean; deferred?: boolean }
+// deferred: the image is in the viewport but hidden (inactive slideshow slide). Native lazy loading
+// cannot defer it, so the real sources sit in data-* attributes and src/site.ts swaps them in after
+// the page has loaded. Without JavaScript the slideshow does not rotate, so nothing is lost.
+const { name, alt, priority = false, class: className = '', sizes = '100vw', decorative = false, deferred = false } = Astro.props;
 const asset = image(name);
+const srcset = srcsetFor(asset);
+const placeholder = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 ---
 <picture class={className}>
   <img
-    src={asset.src}
-    srcset={`${asset.small} ${asset.smallWidth}w, ${asset.src} ${asset.width}w`}
+    src={deferred ? placeholder : asset.src}
+    srcset={deferred ? undefined : srcset}
+    data-src={deferred ? asset.src : undefined}
+    data-srcset={deferred ? srcset : undefined}
     sizes={sizes}
     alt={decorative ? '' : (alt ?? asset.alt)}
     width={asset.width}
     height={asset.height}
-    loading={priority ? 'eager' : 'lazy'}
-    fetchpriority={priority ? 'high' : 'auto'}
+    loading={priority || deferred ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : undefined}
     decoding="async"
   />
 </picture>

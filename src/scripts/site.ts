@@ -1,5 +1,4 @@
 import { filterProperties } from '../data/properties.mjs';
-import { buildEnquiryMessage, whatsappUrl } from './whatsapp.mjs';
 
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -45,23 +44,6 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
   revealables.forEach((el) => el.classList.add('reveal-in'));
 }
 
-// Gentle parallax on large imagery (transform only, desktop pointers, motion allowed)
-const parallax = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
-if (parallax.length && !reduceMotion && matchMedia('(hover: hover) and (min-width: 901px)').matches) {
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    for (const el of parallax) {
-      const rect = el.parentElement!.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > innerHeight) continue;
-      const progress = (rect.top + rect.height / 2 - innerHeight / 2) / (innerHeight + rect.height);
-      el.style.transform = `translate3d(0, ${(progress * -10).toFixed(2)}%, 0)`;
-    }
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  update();
-}
-
 const params = new URLSearchParams(location.search);
 document.querySelectorAll<HTMLFormElement>('.property-search.expanded').forEach(form => {
   const filters: Record<string, string> = {};
@@ -84,63 +66,15 @@ document.querySelectorAll<HTMLFormElement>('.property-search.expanded').forEach(
   }
 });
 
-document.querySelectorAll<HTMLFormElement>('[data-inquiry-form]').forEach(form => {
-  form.noValidate = true;
-  const status = form.querySelector<HTMLElement>('[data-form-status]')!;
-  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-  const draft = form.querySelector<HTMLAnchorElement>('[data-draft-link]')!;
-  button.disabled = false;
-  const scriptFallback = form.querySelector<HTMLElement>('[data-script-fallback]');
-  if (scriptFallback) scriptFallback.hidden = true;
-  const fields = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[data-validate]')];
-  const validate = (field: typeof fields[number]) => {
-    let message = field.validity.valueMissing ? 'Please complete this field.' : field.validity.typeMismatch ? 'Please enter a valid email address.' : '';
-    if (field.type === 'tel' && field.value) {
-      const digits = field.value.replace(/\D/g, '');
-      if (!/^\+?[0-9 ()\-.]+$/.test(field.value) || digits.length < 7 || digits.length > 15) message = 'Please enter a valid phone number (7–15 digits).';
-    }
-    if ('value' in field && field.required && !field.value.trim() && field.type !== 'checkbox') message = 'Please complete this field.';
-    const error = document.getElementById(`${field.id}-error`);
-    if (error) error.textContent = message;
-    field.setAttribute('aria-invalid', String(!!message));
-    return !message;
-  };
-  fields.forEach(field => field.addEventListener('input', () => {
-    if (field.getAttribute('aria-invalid') === 'true') validate(field);
-    draft.hidden = true;
-    status.textContent = '';
-  }));
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    draft.hidden = true;
-    const validity = fields.map(validate);
-    if (validity.includes(false)) {
-      status.textContent = 'Please check the highlighted fields.';
-      fields[validity.indexOf(false)].focus();
-      return;
-    }
-    if ((form.elements.namedItem('website') as HTMLInputElement | null)?.value) { status.textContent = 'Unable to prepare this enquiry. Please call us instead.'; return; }
-    const labelFor = (field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) =>
-      field.dataset.label ?? form.querySelector(`label[for="${field.id}"]`)?.textContent?.replace(/\s*\*\s*$/, '').trim() ?? field.name;
-    const answers = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input[name], select[name], textarea[name]')]
-      .filter(field => !['website', 'consent'].includes(field.name))
-      .map((field): [string, string] => [labelFor(field), field.value]);
-    draft.href = whatsappUrl(form.dataset.whatsapp!, buildEnquiryMessage(form.dataset.intro!, answers));
-    draft.hidden = false;
-    const opened = window.open(draft.href, '_blank');
-    if (opened) opened.opener = null;
-    status.textContent = opened
-      ? 'WhatsApp has opened with your enquiry. Press send in WhatsApp to reach Arman Homes. Nothing has been sent yet.'
-      : 'Your enquiry is ready. Use the link below to open WhatsApp and press send. Nothing has been sent yet.';
-    if (!opened) draft.focus();
-  });
-});
+import './enquiry';
 
 document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
   const main = gallery.querySelector<HTMLImageElement>('[data-gallery-main] img')!;
   const dialog = gallery.querySelector<HTMLDialogElement>('dialog')!;
   const enlarged = dialog.querySelector<HTMLImageElement>('img')!;
   gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-src]').forEach(button => button.addEventListener('click', () => {
+    // The thumbnail only knows the full-size path; drop the cover's srcset so src is honoured.
+    main.removeAttribute('srcset');
     main.src = button.dataset.gallerySrc!;
     main.alt = button.dataset.galleryAlt || '';
     gallery.querySelectorAll('[aria-pressed]').forEach(el => el.setAttribute('aria-pressed', String(el === button)));
@@ -159,8 +93,21 @@ if (hero) {
   const interval = Number(hero.dataset.slideMs) || 7000;
   let current = 0;
   let timer: number | undefined;
+  // Inactive slides ship with data-src/data-srcset (see Picture.astro `deferred`) so they don't
+  // compete with the first slide (the LCP image). Load them once the page has finished loading.
+  const loadSlide = (slide: HTMLElement) => {
+    const img = slide.querySelector<HTMLImageElement>('img[data-src]');
+    if (!img) return;
+    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+    img.src = img.dataset.src!;
+    img.removeAttribute('data-src');
+    img.removeAttribute('data-srcset');
+  };
+  const loadAllSlides = () => slides.forEach(loadSlide);
+  if (document.readyState === 'complete') loadAllSlides(); else addEventListener('load', loadAllSlides, { once: true });
   const show = (next: number) => {
     current = (next + slides.length) % slides.length;
+    loadSlide(slides[current]);
     slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
     chips.forEach((c, i) => {
       const active = i === current;
@@ -173,20 +120,36 @@ if (hero) {
     void dots[current]?.offsetWidth;
     dots[current]?.setAttribute('aria-current', 'true');
   };
+  const toggle = hero.querySelector<HTMLButtonElement>('[data-hero-toggle]');
+  // A pause chosen with the toggle persists until the visitor presses play; hover/focus pauses are temporary.
+  let userPaused = false;
   const stop = () => { window.clearInterval(timer); timer = undefined; };
-  const start = () => { stop(); if (!reduceMotion) timer = window.setInterval(() => show(current + 1), interval); };
+  const start = () => { stop(); if (!reduceMotion && !userPaused) timer = window.setInterval(() => show(current + 1), interval); };
+  const resume = () => { if (userPaused) return; hero.classList.remove('hero-paused'); start(); };
   dots.forEach((d) => d.addEventListener('click', () => { show(Number(d.dataset.slideTo)); start(); }));
   hero.addEventListener('mouseenter', () => { stop(); hero.classList.add('hero-paused'); });
-  hero.addEventListener('mouseleave', () => { hero.classList.remove('hero-paused'); start(); });
+  hero.addEventListener('mouseleave', resume);
   hero.addEventListener('focusin', () => { stop(); hero.classList.add('hero-paused'); });
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  if (toggle && !reduceMotion) {
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => {
+      userPaused = !userPaused;
+      toggle.toggleAttribute('data-paused', userPaused);
+      toggle.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+      hero.classList.toggle('hero-paused', userPaused);
+      if (userPaused) stop(); else start();
+    });
+  }
   if (reduceMotion) hero.classList.add('hero-paused');
   start();
 }
 
 // ---------- Film: background loop + on-demand modal ----------
 const bgVideo = document.querySelector<HTMLVideoElement>('[data-bg-video]');
-if (bgVideo && !reduceMotion && 'IntersectionObserver' in window) {
+// Data Saver: keep the poster instead of streaming the 3 MB decorative loop.
+const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+if (bgVideo && !reduceMotion && !saveData && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) { bgVideo.preload = 'auto'; bgVideo.play().catch(() => { /* autoplay blocked: poster stays */ }); }
     else bgVideo.pause();
@@ -197,7 +160,12 @@ const filmModal = document.querySelector<HTMLDialogElement>('[data-film-modal]')
 const filmVideo = filmModal?.querySelector('video');
 document.querySelectorAll<HTMLButtonElement>('[data-film-open]').forEach((button) => {
   if (!filmModal) { button.hidden = true; return; }
-  button.addEventListener('click', () => { filmModal.showModal(); filmVideo?.play().catch(() => { /* user can press play */ }); });
+  button.addEventListener('click', () => {
+    // The poster is only needed once the modal opens; setting it earlier made it load with the page.
+    if (filmVideo?.dataset.poster && !filmVideo.poster) filmVideo.poster = filmVideo.dataset.poster;
+    filmModal.showModal();
+    filmVideo?.play().catch(() => { /* user can press play */ });
+  });
 });
 filmModal?.querySelector('[data-film-close]')?.addEventListener('click', () => filmModal.close());
 filmModal?.addEventListener('click', (event) => { if (event.target === filmModal) filmModal.close(); });

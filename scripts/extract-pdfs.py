@@ -1,7 +1,7 @@
 """Extract text, page previews and large embedded images from the client brochures.
 
 Usage: py -3 scripts/extract-pdfs.py
-Reads source-assets/pdfs/*.pdf, writes to output/pdf-extract/<slug>/ (git-ignored working files).
+Reads source-files/client/pdfs/*.pdf, writes to output/pdf-extract/<slug>/ (git-ignored working files).
 """
 import json
 import re
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pymupdf
 
-SRC = Path('source-assets/pdfs')
+SRC = Path('source-files/client/pdfs')
 OUT = Path('output/pdf-extract')
 MIN_IMAGE_EDGE = 900  # skip icons and small decorations
 

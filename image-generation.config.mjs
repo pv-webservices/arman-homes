@@ -21,8 +21,8 @@ export const imageConfig = {
   },
   // Optimised WebP derivatives written to public/images/.
   output: {
-    originalsDir: 'output/imagegen',
-    publicDir: 'public/images',
+    originalsDir: 'source-files/illustrations',
+    publicDir: 'public/images/illustrations',
     webpQuality: 80,
     // Widths for the full and small (mobile) derivatives, per orientation. Never upscaled.
     widths: {

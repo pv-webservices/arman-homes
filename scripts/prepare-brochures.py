@@ -1,7 +1,7 @@
 """Make web-sized brochure downloads and render the vector location map.
 
 Usage: py -3 scripts/prepare-brochures.py
-Reads source-assets/pdfs, writes public/brochures/*.pdf and public/images/projects/location-map.png
+Reads source-files/client/pdfs, writes public/brochures/*.pdf and public/images/projects/location-map.png
 (the PNG is converted to WebP by scripts/prepare-project-assets.mjs conventions afterwards).
 """
 import sys
@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pymupdf
 
-SRC = Path('source-assets/pdfs')
+SRC = Path('source-files/client/pdfs')
 OUT = Path('public/brochures')
 
 BROCHURES = {

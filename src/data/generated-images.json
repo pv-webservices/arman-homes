@@ -6,13 +6,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/hero.webp",
+      "src": "/images/illustrations/hero.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 177296
     },
     "small": {
-      "src": "/images/hero-small.webp",
+      "src": "/images/illustrations/hero-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 56994
@@ -25,13 +25,13 @@
     "quality": "high",
     "size": "1024x1536",
     "full": {
-      "src": "/images/intent-buy.webp",
+      "src": "/images/illustrations/intent-buy.webp",
       "width": 1024,
       "height": 1536,
       "bytes": 157588
     },
     "small": {
-      "src": "/images/intent-buy-small.webp",
+      "src": "/images/illustrations/intent-buy-small.webp",
       "width": 640,
       "height": 960,
       "bytes": 78026
@@ -44,13 +44,13 @@
     "quality": "medium",
     "size": "1024x1536",
     "full": {
-      "src": "/images/intent-rent.webp",
+      "src": "/images/illustrations/intent-rent.webp",
       "width": 1024,
       "height": 1536,
       "bytes": 164052
     },
     "small": {
-      "src": "/images/intent-rent-small.webp",
+      "src": "/images/illustrations/intent-rent-small.webp",
       "width": 640,
       "height": 960,
       "bytes": 78370
@@ -63,13 +63,13 @@
     "quality": "high",
     "size": "1024x1024",
     "full": {
-      "src": "/images/intent-sell.webp",
+      "src": "/images/illustrations/intent-sell.webp",
       "width": 1024,
       "height": 1024,
       "bytes": 53710
     },
     "small": {
-      "src": "/images/intent-sell-small.webp",
+      "src": "/images/illustrations/intent-sell-small.webp",
       "width": 640,
       "height": 640,
       "bytes": 28946
@@ -82,13 +82,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/residential-community.webp",
+      "src": "/images/illustrations/residential-community.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 288376
     },
     "small": {
-      "src": "/images/residential-community-small.webp",
+      "src": "/images/illustrations/residential-community-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 92792
@@ -101,13 +101,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/commercial-building.webp",
+      "src": "/images/illustrations/commercial-building.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 236252
     },
     "small": {
-      "src": "/images/commercial-building-small.webp",
+      "src": "/images/illustrations/commercial-building-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 81930
@@ -120,13 +120,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/consultation.webp",
+      "src": "/images/illustrations/consultation.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 84572
     },
     "small": {
-      "src": "/images/consultation-small.webp",
+      "src": "/images/illustrations/consultation-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 35326
@@ -139,13 +139,13 @@
     "quality": "medium",
     "size": "1536x1024",
     "full": {
-      "src": "/images/pune-horizon.webp",
+      "src": "/images/illustrations/pune-horizon.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 276304
     },
     "small": {
-      "src": "/images/pune-horizon-small.webp",
+      "src": "/images/illustrations/pune-horizon-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 85780
@@ -158,13 +158,13 @@
     "quality": "medium",
     "size": "1024x1024",
     "full": {
-      "src": "/images/floorplan.webp",
+      "src": "/images/illustrations/floorplan.webp",
       "width": 1024,
       "height": 1024,
       "bytes": 182640
     },
     "small": {
-      "src": "/images/floorplan-small.webp",
+      "src": "/images/illustrations/floorplan-small.webp",
       "width": 640,
       "height": 640,
       "bytes": 61924
@@ -177,13 +177,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/listing-3bhk-hinjewadi.webp",
+      "src": "/images/illustrations/listing-3bhk-hinjewadi.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 260484
     },
     "small": {
-      "src": "/images/listing-3bhk-hinjewadi-small.webp",
+      "src": "/images/illustrations/listing-3bhk-hinjewadi-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 83416
@@ -196,13 +196,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/listing-2bhk-wakad.webp",
+      "src": "/images/illustrations/listing-2bhk-wakad.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 144662
     },
     "small": {
-      "src": "/images/listing-2bhk-wakad-small.webp",
+      "src": "/images/illustrations/listing-2bhk-wakad-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 51372
@@ -215,13 +215,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/listing-villa-baner.webp",
+      "src": "/images/illustrations/listing-villa-baner.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 221780
     },
     "small": {
-      "src": "/images/listing-villa-baner-small.webp",
+      "src": "/images/illustrations/listing-villa-baner-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 69534
@@ -234,13 +234,13 @@
     "quality": "high",
     "size": "1536x1024",
     "full": {
-      "src": "/images/listing-office-hinjewadi.webp",
+      "src": "/images/illustrations/listing-office-hinjewadi.webp",
       "width": 1536,
       "height": 1024,
       "bytes": 235008
     },
     "small": {
-      "src": "/images/listing-office-hinjewadi-small.webp",
+      "src": "/images/illustrations/listing-office-hinjewadi-small.webp",
       "width": 768,
       "height": 512,
       "bytes": 76740

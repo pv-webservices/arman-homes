@@ -43,7 +43,13 @@
 
 /* Slide controls */
 .hero-controls { position: absolute; left: 0; right: 0; bottom: 72px; }
-.hero-controls ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; max-width: 720px; }
+.hero-controls .wrap { display: flex; align-items: flex-end; gap: 18px; }
+.hero-controls ol { flex: 1 1 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; max-width: 720px; }
+.hero-controls .hero-toggle { flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; margin-bottom: -16px; border: 1px solid rgb(255 255 255 / 0.4); border-radius: 50%; color: var(--gold); transition: background-color 0.3s, color 0.3s; }
+.hero-controls .hero-toggle:hover { background: var(--gold); color: var(--navy); }
+.hero-toggle svg + svg, .hero-toggle[data-paused] svg:first-child { display: none; }
+.hero-toggle[data-paused] svg + svg { display: block; fill: currentColor; }
+.hero-toggle[hidden] { display: none; }
 .hero-controls button { display: grid; gap: 10px; width: 100%; padding: 0 0 4px; border: 0; background: none; color: #b9c4cc; text-align: left; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: color 0.3s; }
 .hero-controls button span { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--gold); margin-right: 8px; }
 .hero-controls button i { position: relative; display: block; height: 2px; background: rgb(255 255 255 / 0.22); overflow: hidden; }
@@ -303,3 +309,11 @@
   .happy-rail .happy-grid { display: flex; width: max-content; gap: 14px; }
   .happy-rail .happy-card { flex: 0 0 min(78vw, 300px); scroll-snap-align: start; }
 }
+
+/* ---------- Rendering performance ----------
+   The homepage is ~13,000px tall. Below-the-fold sections skip layout and paint until they approach
+   the viewport; `auto` remembers each section's real height once rendered, so the scrollbar settles.
+   Content stays in the DOM and accessibility tree (find-in-page, anchors and screen readers work).
+   Not applied to the footer: off-screen contained content is not hit-testable, so Lighthouse/axe read
+   the footer's light links against the page background (false contrast failures, a11y score 96). */
+.home-hero ~ section { content-visibility: auto; contain-intrinsic-size: auto 900px; }

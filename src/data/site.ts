@@ -1,6 +1,7 @@
+export const whatsappUrl = (message = 'Hello Arman Homes, I would like to discuss my property requirements.') => `https://wa.me/919354210824?text=${encodeURIComponent(message)}`;
 export const business = {
   name: 'Arman Homes', phone: '+91 9354210824', tel: '+919354210824',
-  email: 'armanhomess@gmail.com', location: 'Hinjewadi Marunji, Pune', whatsapp: 'https://wa.me/919354210824',
+  email: 'armanhomess@gmail.com', location: 'Hinjewadi Marunji, Pune', whatsapp: whatsappUrl(),
   tagline: 'Your Dream Home, Our Priority',
   maps: 'https://www.google.com/maps/search/?api=1&query=Hinjewadi%20Marunji%20Pune',
 };
